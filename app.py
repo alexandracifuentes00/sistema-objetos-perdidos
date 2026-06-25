@@ -30,26 +30,37 @@ def principal():
 @app.route("/registrar", methods=["GET", "POST"])
 def registrar_objeto():
     if request.method == "POST":
-        # Estos nombres ("nombre", "categoria", "lugar", "fecha", "ubicacion", "descripcion")
-        # DEBEN coincidir exactamente con los 'name' de tu HTML.
+        # PASO 1: CAPTURAR DATOS DEL FORMULARIO
         nombre = request.form.get("nombre")
         categoria = request.form.get("categoria")
+        descripcion = request.form.get("descripcion")
         lugar = request.form.get("lugar")
         fecha = request.form.get("fecha")
         ubicacion = request.form.get("ubicacion")
-        descripcion = request.form.get("descripcion")
-        estado = "Pendiente" # Valor predeterminado
+        estado = "Pendiente"
 
+        # PASO 2: USAR LAS VARIABLES CAPTURADAS
         conn = get_db_connection()
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO objetos_perdidos 
+                (nombre_objeto, categoria, descripcion, lugar_encontrado, fecha_encontrado, ubicacion_actual, estado)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, (nombre, categoria, descripcion, lugar, fecha, ubicacion, estado))
+            conn.commit()
+        conn.close()
+        return redirect(url_for("principal"))
+    
+        return render_template("registrar.html")       
+    cur.execute("""
+                INSERT INTO objetos_perdidos 
                 (nombre_objeto, categoria, lugar_encontrado, fecha_encontrado, ubicacion_actual, descripcion, estado)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (nombre, categoria, lugar, fecha, ubicacion, descripcion, estado))
-        conn.commit()
-        conn.close()
-        return redirect(url_for("principal"))
+            
+    conn.commit()
+    conn.close()
+    return redirect(url_for("principal"))
     
     return render_template("registrar.html")
 
@@ -89,8 +100,9 @@ def buscar_resultados():
 
     conn = get_db_connection()
     with conn.cursor() as cur:
+        # Ajustamos a las columnas que REALMENTE existen en tu base de datos
         cur.execute("""
-            SELECT id_objeto, nombre_objeto, categoria, descripcion, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado
+            SELECT id, nombre_objeto, categoria, descripcion, lugar_encontrado, estado
             FROM objetos_perdidos
             WHERE LOWER(nombre_objeto) LIKE LOWER(%s)
         """, (f"%{query}%",))
@@ -100,18 +112,16 @@ def buscar_resultados():
     if fila is None:
         return render_template("sin_resultados.html", termino=query)
 
+    # Ajustamos el diccionario a las 6 columnas obtenidas
     objeto = {
         "id": fila[0],
         "nombre": fila[1],
         "categoria": fila[2],
         "descripcion": fila[3],
-        "fecha": str(fila[4]),
-        "lugar": fila[5],
-        "ubicacion": fila[6],
-        "estado": fila[7]
+        "lugar": fila[4],
+        "estado": fila[5]
     }
     return render_template("resultado.html", objeto=objeto, termino=query)
-
 # ==========================================
 # DASHBOARD ADMINISTRATIVO
 # ==========================================
