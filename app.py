@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from conexion import conectar
+from conexion import get_db_connection
 import psycopg
 from datetime import date
 
@@ -12,7 +12,7 @@ app.secret_key = "cft_tarapaca_2026"
 # ==========================================
 @app.route('/')
 def index():
-    conn = conectar() # Usas el nombre nuevo
+    conn = get_db_connection() # Usas el nombre nuevo
     objetos = conn.execute('SELECT * FROM objetos').fetchall()
     conn.close()
     return render_template('index.html', objetos=objetos)
@@ -36,7 +36,7 @@ def registrar_objeto():
             descripcion = request.form["descripcion"]
             lugar = request.form["lugar"]
 
-            conn = conectar()
+            conn = get_db_connection()
             with conn.cursor() as cur:
                 cur.execute("""
                     INSERT INTO objetos_perdidos
@@ -78,7 +78,7 @@ def buscar_objeto():
             return render_template("sin_resultados.html", termino="búsqueda vacía")
 
         try:
-            conn = conectar()
+            conn = get_db_connection()
             with conn.cursor() as cur:
             # Buscamos el primero que coincida exactamente o parcialmente
                 cur.execute("""
@@ -120,7 +120,7 @@ def buscar_resultados():
     if not query:
         return redirect(url_for("buscar_objeto"))
 
-    conn = conectar()
+    conn = get_db_connection()
     with conn.cursor() as cur:
         cur.execute("""
             SELECT id_objeto, nombre_objeto, categoria, descripcion, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado
@@ -153,7 +153,7 @@ def dashboard():
     if not session.get("admin_autenticado"):
         return redirect(url_for("login_admin"))
     accion = request.args.get("accion", "actualizar")
-    conn = conectar()
+    conn = get_db_connection()
     with conn.cursor() as cur:
         cur.execute("""
             SELECT id_objeto, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado
@@ -222,7 +222,7 @@ def logout():
 def editar_objeto(id):
     if not session.get("admin_autenticado"):
         return redirect(url_for("login_admin"))
-        conn = conectar()        
+        conn = get_db_connection()
         if request.method == "POST":
             with conn.cursor() as cur:
                 cur.execute("""
@@ -270,7 +270,7 @@ def eliminar_objeto(id):
     if not session.get("admin_autenticado"):
         return redirect(url_for("login_admin"))
     try:
-        conn = conectar()
+        conn = get_db_connection()
         with conn.cursor() as cur:
             cur.execute("DELETE FROM objetos_perdidos WHERE id_objeto = %s", (id,))
         conn.commit()
@@ -292,7 +292,7 @@ def enviar_feedback():
     comentario = request.form["comentario"]
     puntuacion = request.form["puntuacion"]
 
-    conn = conectar()
+    conn = get_db_connection()
     with conn.cursor() as cur:
         cur.execute("""
             INSERT INTO feedback_alumnos (categoria, comentario, puntuacion)
