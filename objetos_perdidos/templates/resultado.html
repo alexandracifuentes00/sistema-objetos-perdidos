@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de Búsqueda</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        body{
+            background:#f4f6f9;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        .container-resultado{
+            max-width:900px;
+            margin:40px auto;
+        }
+
+        .card-resultado{
+            background:white;
+            border-radius:20px;
+            overflow:hidden;
+            box-shadow:0 8px 25px rgba(0,0,0,.08);
+        }
+
+        .header-card{
+            background:#002060;
+            color:white;
+            padding:25px;
+        }
+
+        .body-card{
+            padding:30px;
+        }
+
+        .dato{
+            padding:15px;
+            border-bottom:1px solid #e5e7eb;
+        }
+
+        .dato:last-child{
+            border-bottom:none;
+        }
+
+        .titulo{
+            font-weight:700;
+            color:#002060;
+            margin-bottom:5px;
+        }
+
+        .valor{
+            color:#334155;
+            font-size:1.05rem;
+        }
+
+        .estado-pendiente{
+            background:#ffc107;
+            color:black;
+            padding:8px 15px;
+            border-radius:20px;
+            font-weight:600;
+        }
+
+        .estado-entregado{
+            background:#198754;
+            color:white;
+            padding:8px 15px;
+            border-radius:20px;
+            font-weight:600;
+        }
+
+        .info-box{
+            background:#e7f1ff;
+            border-left:5px solid #0d6efd;
+            border-radius:10px;
+            padding:20px;
+            margin-top:25px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container-resultado">
+
+    <div class="card-resultado">
+
+        <div class="header-card">
+
+            <h2>
+                <i class="fas fa-search"></i>
+                Resultado de la Búsqueda
+            </h2>
+
+            <p class="mb-0">
+                Información del objeto encontrado
+            </p>
+
+        </div>
+
+        <div class="body-card">
+
+            <div class="dato">
+                <div class="titulo">
+                    Nombre del Objeto
+                </div>
+
+                <div class="valor">
+                    {{ objeto.nombre }}
+                </div>
+            </div>
+
+            <div class="dato">
+                <div class="titulo">
+                    Categoría
+                </div>
+
+                <div class="valor">
+                    {{ objeto.categoria }}
+                </div>
+            </div>
+
+            <div class="dato">
+                <div class="titulo">
+                    Descripción
+                </div>
+
+                <div class="valor">
+                    {{ objeto.descripcion }}
+                </div>
+            </div>
+
+            <div class="dato">
+                <div class="titulo">
+                    Fecha Encontrado
+                </div>
+
+                <div class="valor">
+                    {{ objeto.fecha }}
+                </div>
+            </div>
+
+            <div class="dato">
+                <div class="titulo">
+                    Lugar Encontrado
+                </div>
+
+                <div class="valor">
+                    {{ objeto.lugar }}
+                </div>
+            </div>
+
+            <div class="dato">
+                <div class="titulo">
+                    Ubicación Actual
+                </div>
+
+                <div class="valor">
+                    {{ objeto.ubicacion }}
+                </div>
+            </div>
+
+            <div class="dato">
+                <div class="titulo">
+                    Estado
+                </div>
+
+                <div class="valor">
+
+                    {% if objeto.estado == "Pendiente" %}
+
+                    <span class="estado-pendiente">
+                        🟡 Pendiente
+                    </span>
+
+                    {% else %}
+
+                    <span class="estado-entregado">
+                        🟢 Entregado
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="info-box">
+
+                <h5>
+                    <i class="fas fa-circle-info"></i>
+                    Información
+                </h5>
+
+                <p class="mb-0">
+
+                    Si este objeto te pertenece, acércate al lugar indicado
+                    con tu credencial institucional para retirarlo.
+
+                </p>
+
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+
+                <a href="/buscar"
+                   class="btn btn-secondary">
+
+                    <i class="fas fa-arrow-left"></i>
+                    Nueva Búsqueda
+
+                </a>
+
+                <a href="/principal"
+                   class="btn btn-primary">
+
+                    <i class="fas fa-house"></i>
+                    Menú Principal
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

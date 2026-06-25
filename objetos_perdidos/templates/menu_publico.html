@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block titulo %}Menú Principal - CFT Tarapacá{% endblock %}
+
+{% block estilos %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        background: #e2e8f0;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition: background 0.3s ease;
+    }
+
+    body.fondo-pc { background: #002060 !important; }
+
+    /* Estructura principal identica al Registro */
+    .totem-container {
+        width: 100%; max-width: 500px; min-height: 100vh;
+        background: white; display: flex; flex-direction: column;
+        justify-content: space-between; box-shadow: 0 0 25px rgba(0,0,0,.15);
+    }
+
+    .header-bar { background: #002060; color: white; padding: 20px; display: flex; align-items: center; gap: 15px; }
+    .header-bar img { height: 60px; background: white; padding: 5px; border-radius: 8px; }
+    .header-text h1 { font-size: 1.2rem; margin: 0; font-weight: 700; }
+    .header-text p { margin: 0; color: #93c5fd; font-size: .8rem; }
+    
+    .main-content { flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+
+    .btn-menu {
+        padding: 25px; text-align: center; text-decoration: none; color: white;
+        border-radius: 15px; font-weight: bold; font-size: 1.3rem; display: block;
+        transition: transform 0.2s;
+    }
+    .btn-menu:hover { transform: scale(1.02); }
+
+    .footer-bar { background: #002060; height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+    .nav-home { color: white !important; text-decoration: none !important; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .info-icon { width: 28px; height: 28px; border-radius: 50%; background: white; color: #002060; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    
+    .modo-btn { position: fixed; left: 15px; bottom: 80px; background: #334155; color: white; padding: 12px 18px; border-radius: 10px; font-weight: 600; text-decoration: none; z-index: 9999; }
+
+    /* MODO PC - EXPANSION TOTAL */
+    .totem-container.modo-pc { max-width: 100vw !important; width: 100vw !important; }
+    .totem-container.modo-pc .header-bar { padding: 30px 50px; }
+    .totem-container.modo-pc .header-text h1 { font-size: 2rem; }
+    .totem-container.modo-pc .main-content { padding: 40px 20%; }
+</style>
+{% endblock %}
+
+{% block contenido %}
+<div class="totem-container {% if modo_pc %}modo-pc{% endif %}">
+    <header class="header-bar">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        <div class="header-text">
+            <h1>MÓDULO INTELIGENTE</h1>
+            <p>SISTEMA DE GESTIÓN DE OBJETOS PERDIDOS</p>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <a href="{{ url_for('buscar_objeto') }}" class="btn-menu" style="background:#005694;">
+            <i class="fas fa-search me-2"></i> BUSCAR OBJETO
+        </a>
+        <a href="{{ url_for('registrar_objeto') }}" class="btn-menu" style="background:#16a34a;">
+            <i class="fas fa-plus-circle me-2"></i> REGISTRAR OBJETO
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="btn-menu" style="background:#dc2626;">
+            <i class="fas fa-lock me-2"></i> GESTIÓN ADMINISTRATIVA
+        </a>
+    </main>
+
+    <footer class="footer-bar">
+        <a href="{{ url_for('index') }}" class="nav-home"><i class="fas fa-home"></i> INICIO</a>
+        <div class="info-icon"><i class="fas fa-info-circle" style="color: #002060;"></i></div>
+    </footer>
+</div>
+
+<a href="{{ url_for('activar_totem' if modo_pc else 'activar_pc') }}" class="modo-btn">
+    <i class="fas fa-{{ 'mobile-alt' if modo_pc else 'desktop' }} me-1"></i> 
+    {{ 'Modo Tótem' if modo_pc else 'Modo PC' }}
+</a>
+{% endblock %}

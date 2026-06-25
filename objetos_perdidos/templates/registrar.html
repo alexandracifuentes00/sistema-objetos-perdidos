@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Registrar Objeto - CFT Tarapacá
+{% endblock %}
+
+{% block estilos %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; width: 100%; overflow: hidden; background: #e2e8f0; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
+
+    .totem-container { width: 100%; max-width: 600px; height: 100vh; background: white; display: flex; flex-direction: column; box-shadow: 0 0 25px rgba(0,0,0,.15); }
+    
+    /* HEADER ORIGINAL (Tamaño restaurado) */
+    /* HEADER FLEXIBLE Y ADAPTABLE */
+    .header-bar { 
+        flex: 0 0 auto; 
+        background: #002060; 
+        color: white; 
+        padding: 15px; 
+        display: flex; 
+        flex-direction: column; /* Apila logo y título en tótem */
+        align-items: center; 
+        gap: 10px;
+    }
+
+    .header-top {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .header-bar img { height: 50px; background: white; padding: 4px; border-radius: 8px; }
+    .header-text h1 { font-size: 1rem; font-weight: 700; margin: 0; }
+    .header-text p { font-size: 0.7rem; color: #93c5fd; margin: 0; }
+
+    /* TÍTULO QUE SE ACOMODA SEGÚN EL ESPACIO */
+    .header-title { 
+        font-size: 1.1rem; 
+        font-weight: 800; 
+        text-transform: uppercase; 
+        margin-top: 5px;
+        text-align: center;
+    }
+    /* MAIN CONTENT COMPACTO */
+    .main-content { flex: 1; padding: 15px; overflow-y: auto; background: #ffffff; }
+    .form-card { background: #f8fafc; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .form-label { font-weight: 600; color: #334155; font-size: 0.85rem; margin-bottom: 3px; }
+    .form-control, .form-select { border-radius: 8px; padding: 8px; font-size: 0.9rem; border: 1px solid #ced4da; }
+    .btn-guardar { background: #16a34a; border: none; font-weight: 700; padding: 10px; font-size: 0.9rem; color: white; width: 100%; }
+    
+    /* FOOTER FIJO */
+    .footer-bar { flex: 0 0 auto; background: #002060; height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+    .nav-home { color: white !important; text-decoration: none !important; font-weight: 700; font-size: 0.9rem; }
+    
+    /* MODO PC/TÓTEM RESTAURADO */
+    .totem-container.modo-pc { max-width: 100vw !important; width: 100vw !important; }
+    .modo-btn { position: fixed; left: 10px; bottom: 70px; background: #334155; color: white; padding: 8px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 9999; text-decoration: none; }
+</style>
+{% endblock %}
+
+{% block contenido %}
+<div class="totem-container {% if modo_pc %}modo-pc{% endif %}">
+    <header class="header-bar">
+    <div class="header-top">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        <div class="header-text">
+            <h1>MÓDULO INTELIGENTE</h1>
+            <p>REGISTRO DE OBJETOS ENCONTRADOS</p>
+        </div>
+    </div>
+    <div class="header-title">REGISTRAR OBJETO</div>
+</header>
+
+    <main class="main-content">
+        <div class="form-card">
+            <form action="{{ url_for('registrar_objeto') }}" method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-2"><label class="form-label">Nombre del Objeto</label><input type="text" name="nombre" class="form-control" required></div>
+                    <div class="col-md-6 mb-2"><label class="form-label">Categoría</label>
+                        <select name="categoria" class="form-select" required>
+                            <option value="">Seleccione...</option>
+                            <option value="Electrónica">Electrónica</option>
+                            <option value="Vestuario">Vestuario</option>
+                            <option value="Documentos">Documentos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-2"><label class="form-label">Lugar</label><input type="text" name="lugar" class="form-control" required></div>
+                    <div class="col-md-6 mb-2"><label class="form-label">Fecha</label><input type="date" name="fecha" id="fecha_hallazgo" class="form-control" required></div>
+                </div>
+                <div class="mb-2"><label class="form-label">Ubicación (Custodia)</label>
+                    <select name="ubicacion" class="form-select" required>
+                        <option value="">Seleccione lugar...</option>
+                        <option value="Garita puerta principal">Garita puerta principal</option>
+                        <option value="Administración">Administración</option>
+                        <option value="Oficina de Asuntos Estudiantiles">Oficina de Asuntos Estudiantiles</option>
+
+                    </select>
+                </div>
+                <div class="mb-3"><label class="form-label">Descripción</label><textarea name="descripcion" class="form-control" rows="2"></textarea></div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-guardar">REGISTRAR OBJETO</button>
+                    <a href="{{ url_for('principal') }}" class="btn btn-outline-secondary btn-sm">VOLVER AL MENÚ</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer-bar">
+        <a href="{{ url_for('index') }}" class="nav-home"><i class="fas fa-home"></i> INICIO</a>
+        <i class="fas fa-info-circle text-white"></i>
+    </footer>
+</div>
+
+{% if modo_pc %}
+    <a href="{{ url_for('activar_totem') }}" class="modo-btn">Cambiar a Modo Tótem</a>
+{% else %}
+    <a href="{{ url_for('activar_pc') }}" class="modo-btn">Cambiar a Modo PC</a>
+{% endif %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const t = new Date();
+        document.getElementById('fecha_hallazgo').value = t.toISOString().split('T')[0];
+    });
+</script>
+{% endblock %}

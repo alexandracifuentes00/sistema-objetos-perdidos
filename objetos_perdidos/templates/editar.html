@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Objeto - CFT Tarapacá</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        body{
+            background:#f4f6f9;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        .container-edit{
+            max-width:800px;
+            margin:40px auto;
+        }
+
+        .card-edit{
+            background:white;
+            border-radius:20px;
+            overflow:hidden;
+            box-shadow:0 8px 25px rgba(0,0,0,.08);
+        }
+
+        .header-edit{
+            background:#002060;
+            color:white;
+            padding:25px;
+        }
+
+        .header-edit h3{
+            margin:0;
+            font-weight:700;
+        }
+
+        .body-edit{
+            padding:30px;
+        }
+
+        .form-label{
+            font-weight:600;
+            color:#334155;
+        }
+
+        .form-control,
+        .form-select{
+            border-radius:10px;
+            padding:12px;
+        }
+
+        .badge-id{
+            background:#0d6efd;
+            padding:8px 12px;
+            border-radius:20px;
+            font-size:.85rem;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container-edit">
+
+    <div class="card-edit">
+
+        <div class="header-edit d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h3>
+                    <i class="fas fa-pen-to-square"></i>
+                    Editar Objeto
+                </h3>
+
+                <small>
+                    Actualizar información o entregar objeto
+                </small>
+
+            </div>
+
+            <span class="badge-id">
+                ID #{{ objeto.id }}
+            </span>
+
+        </div>
+
+        <div class="body-edit">
+
+            <form action="/editar/{{ objeto.id }}" method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Nombre del Objeto
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nombre"
+                            class="form-control"
+                            value="{{ objeto.nombre }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Categoría
+                        </label>
+
+                        <input
+                            type="text"
+                            name="categoria"
+                            class="form-control"
+                            value="{{ objeto.categoria }}"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Fecha Encontrado
+                        </label>
+
+                        <input
+                            type="date"
+                            name="fecha"
+                            class="form-control"
+                            value="{{ objeto.fecha }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Estado
+                        </label>
+
+                        <select
+                            name="estado"
+                            class="form-select">
+
+                            <option value="Pendiente"
+                            {% if objeto.estado == 'Pendiente' %}
+                            selected
+                            {% endif %}
+                            >
+                                🟡 Pendiente
+                            </option>
+
+                            <option value="Entregado"
+                            {% if objeto.estado == 'Entregado' %}
+                            selected
+                            {% endif %}
+                            >
+                                🟢 Entregado
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Lugar Encontrado
+                    </label>
+
+                    <input
+                        type="text"
+                        name="lugar"
+                        class="form-control"
+                        value="{{ objeto.lugar }}"
+                        required>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Ubicación Actual
+                    </label>
+
+                    <input
+                        type="text"
+                        name="ubicacion"
+                        class="form-control"
+                        value="{{ objeto.ubicacion }}"
+                        required>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a href="/dashboard"
+                        class="btn btn-secondary">
+
+                        <i class="fas fa-arrow-left"></i>
+                        Volver
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="fas fa-save"></i>
+                        Guardar Cambios
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+

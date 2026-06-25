@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugerencias y Retroalimentación - CFT Tarapacá</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', sans-serif; padding: 30px 15px; }
+        .feedback-card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; padding: 35px; }
+        .header-box { background: #002e6d; color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 25px; }
+        .star-rating { font-size: 2.5rem; color: #ddd; cursor: pointer; direction: rtl; text-align: center; }
+        .star-rating input { display: none; }
+        .star-rating label:hover, .star-rating label:hover ~ label, .star-rating input:checked ~ label { color: #ffc107; }
+    </style>
+</head>
+<body>
+
+    <div class="feedback-card">
+        <div class="header-box">
+            <h3 class="m-0"><i class="fas fa-comments"></i> Buzón de Alumnos</h3>
+            <p class="m-0 mt-1 small">Tu opinión nos ayuda a mejorar el Tótem institucional</p>
+        </div>
+
+        <form action="/enviar_feedback" method="POST">
+            <div class="mb-4 text-center">
+                <label class="form-label d-block fw-bold text-secondary">¿Qué tal tu experiencia usando el Tótem?</label>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="puntuacion" value="5" required/><label for="star5" class="fas fa-star"></label>
+                    <input type="radio" id="star4" name="puntuacion" value="4"/><label for="star4" class="fas fa-star"></label>
+                    <input type="radio" id="star3" name="puntuacion" value="3"/><label for="star3" class="fas fa-star"></label>
+                    <input type="radio" id="star2" name="puntuacion" value="2"/><label for="star2" class="fas fa-star"></label>
+                    <input type="radio" id="star1" name="puntuacion" value="1"/><label for="star1" class="fas fa-star"></label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold text-secondary">¿Con qué tiene que ver tu comentario?</label>
+                <select name="categoria" class="form-select" style="padding: 12px; border-radius: 10px;" required>
+                    <option value="" disabled selected>Selecciona una opción...</option>
+                    <option value="Sugerencia">💡 Sugerencia de mejora</option>
+                    <option value="Error">⚠️ Reportar un error en el sistema</option>
+                    <option value="Felicitación">👏 Felicitación / Me gustó</option>
+                    <option value="Otro">❓ Otro asunto</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold text-secondary">Escribe tu opinión o sugerencia:</label>
+                <textarea name="comentario" class="form-control" rows="4" style="border-radius: 10px;" placeholder="Cuéntanos qué añadirías o qué falló..." required></textarea>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary fw-bold py-3" style="background-color: #002e6d; border: none; border-radius: 10px;">
+                    <i class="fas fa-paper-plane me-2"></i> Enviar Comentario
+                </button>
+                <a href="/principal" class="btn btn-outline-secondary py-2" style="border-radius: 10px;">Volver al Menú</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,370 @@
+/* ==========================================================================
+    VARIABLES CORPORATIVAS Y CONFIGURACIÓN BASE
+   ========================================================================== */
+:root {
+    --azul-corporativo: #002060;   /* Azul marino oficial del CFT */
+    --azul-secundario: #0070c0;    /* Azul brillante para acciones/botones */
+    --verde-formal: #1e7e34;       /* Verde para confirmaciones/registros */
+    --gris-tecnico: #334155;       /* Gris oscuro para paneles administrativos */
+    --gris-fondo: #f0f4f8;         /* Fondo suave para descanso visual */
+    --blanco-tarjeta: #ffffff;
+    --texto-oscuro: #0f172a;
+    --texto-mutado: #475569;
+    --border-color: #cbd5e1;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #e2e8f0; /* Fondo gris claro */
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+    CONTENEDOR DEL TÓTEM (Simulación de Quiosco Vertical / Adaptable a PC)
+   ========================================================================== */
+.totem-container {
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+    height: 100vh;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+    ENCABEZADO INSTITUCIONAL DE ALTA RESOLUCIÓN
+   ========================================================================== */
+.header-bar {
+    background-color: #002060;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 120px;
+}
+
+.header-bar img {
+    height: 60px;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.header-text h1 { font-size: 1.1rem; margin: 0; }
+.header-text p { font-size: 0.7rem; color: #93c5fd; margin: 0; }
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Control maestro del tamaño del logo para que no se desborde */
+.totem-logo, .header-logo {
+    height: 250px;                  /* Tamaño grande y legible */
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.2));
+}
+
+.header-text, .header-right {
+    text-align: right;
+}
+
+.header-text h1, .header-right h2 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.header-text p, .header-right p {
+    font-size: 0.72rem;
+    color: #93c5fd;
+    margin: 2px 0 0 0;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+/* ==========================================================================
+    CUERPO CENTRAL DE CONTENIDO (100% CENTRADO)
+   ========================================================================== */
+.totem-content, .totem-body {
+    flex-grow: 1;
+    padding: 30px 24px;
+    background-color: var(--gris-fondo);
+    overflow-y: auto;
+    text-align: center;            /* Centra textos por defecto */
+}
+
+.welcome-title, .welcome-section {
+    margin-bottom: 30px;
+}
+
+.welcome-title h2, .welcome-section h2 {
+    color: var(--texto-oscuro);
+    font-size: 1.9rem;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+}
+
+.welcome-title p, .welcome-section p {
+    color: var(--texto-mutado);
+    font-size: 0.95rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+    SECCIONES DE MENÚ Y GRUPOS (FIELDSETS PROFESIONALES)
+   ========================================================================== */
+.menu-group {
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 20px 15px;
+    margin-bottom: 25px;
+    background-color: var(--blanco-tarjeta);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.group-title, .group-label {
+    font-size: 0.8rem;
+    color: var(--texto-mutado);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* ==========================================================================
+    BOTONES DE SELECCIÓN TÁCTIL CENTRADOS (SIN ICONOS)
+   ========================================================================== */
+.totem-option-btn, .totem-btn, .menu-option {
+    display: block;
+    text-decoration: none;
+    padding: 20px 15px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    text-align: center;            /* Centra el título y subtítulo dentro del botón */
+    transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    border: none;
+    cursor: pointer;
+}
+
+.totem-option-btn:last-child, .totem-btn:last-child {
+    margin-bottom: 0;
+}
+
+.totem-option-btn:active, .totem-btn:active {
+    transform: scale(0.98);
+    filter: brightness(0.9);
+}
+
+/* Textos internos de los botones */
+.btn-text-container, .option-text {
+    display: block;
+    width: 100%;
+}
+
+.btn-main-title, .btn-title {
+    display: block;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+.btn-subtitle, .btn-desc {
+    display: block;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 4px;
+    font-weight: 400;
+}
+
+/* Paleta de bordes y colores de acción institucional */
+.btn-blue { background-color: var(--azul-secundario); }
+.btn-buscar-color { background-color: #005694; }
+.btn-green, .btn-registrar-color { background-color: var(--verde-formal); }
+.btn-slate, .btn-admin-color { background-color: var(--gris-tecnico); }
+
+/* ==========================================================================
+    FORMULARIOS Y TARJETAS DE INFORMACIÓN (LOOK IMPECABLE)
+   ========================================================================== */
+.info-card, .form-container {
+    background: var(--blanco-tarjeta);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    text-align: left;              /* Mantiene los formularios legibles a la izquierda */
+}
+
+.form-field {
+    margin-bottom: 18px;
+}
+
+.form-field label {
+    display: block;
+    font-weight: 700;
+    color: var(--azul-corporativo);
+    margin-bottom: 6px;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-field input, .form-field select, .form-field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: var(--gris-fondo);
+    color: var(--texto-oscuro);
+    outline: none;
+}
+
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+    border-color: var(--azul-secundario);
+    background-color: #ffffff;
+}
+
+/* Botón de envío gigante para formularios */
+.action-submit {
+    width: 100%;
+    background-color: var(--azul-corporativo);
+    color: white;
+    border: none;
+    padding: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0, 32, 96, 0.2);
+}
+
+/* Filas estructuradas de datos (Pantalla de resultados) */
+.info-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 700;
+    color: var(--azul-corporativo);
+    width: 45%;
+    font-size: 0.9rem;
+}
+
+.info-value {
+    color: var(--texto-oscuro);
+    width: 55%;
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+    PIE DE PÁGINA NAVEGACIÓN CORPORATIVO
+   ========================================================================== */
+.totem-footer, .footer-bar {
+    padding: 15px 20px;
+    background-color: var(--azul-corporativo);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;              /* Empuja el footer siempre al fondo de la pantalla */
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.btn-footer-secondary, .btn-exit {
+    background: transparent;
+    border: 1.5px solid white;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.btn-footer-secondary:hover, .btn-exit:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-exit-red {
+    background-color: #dc2626;
+    border-color: #dc2626;
+}
+
+.btn-exit-red:hover {
+    background-color: #b91c1c;
+}
+
+.info-icon {
+    background-color: white;
+    color: var(--azul-corporativo);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.85rem;
+
+}
+.main-content {
+    flex: 1;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+/* Clases utilitarias */
+.hidden { display: none; }
+
+.modo-pc{
+    max-width:1200px !important;
+    width:95% !important;
+    min-height:auto !important;
+    border-radius:20px;
+    margin:30px auto;
+}
+
+.modo-pc .main-content{
+    padding:60px;
+}
+
+.modo-pc .btn-menu{
+    font-size:1.3rem;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido - Módulo Inteligente</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden; 
+        background: #e2e8f0;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* ESTILO PARA MODO PC */
+    body.fondo-pc { background: #002060 !important; }
+
+    /* CONTENEDOR BASE */
+    .totem-container {
+        width: 100%;
+        max-width: 500px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        box-shadow: 0 0 25px rgba(0,0,0,.15);
+        overflow: hidden;
+    }
+
+    /* HEADER CON COLOR ORIGINAL */
+    .header {
+        background: #002060; /* Color azul recuperado */
+        color: white;
+        padding: 20px;
+        text-align: center;
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        height: 80px; 
+        background: white;
+        padding: 5px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .header h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; }
+    .header p { margin: 0; color: #cbd5e1; font-size: .9rem; }
+
+    /* CONTENIDO */
+    .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        text-align: center;
+        overflow-y: auto;
+    }
+
+    .welcome-title { color: #002060; font-weight: 800; margin-bottom: 20px; }
+    .welcome-text { color: #64748b; margin-bottom: 35px; font-size: 1rem; }
+
+    .btn-ingresar {
+        width: 100%;
+        max-width: 320px;
+        background: #005694;
+        border: none;
+        color: white;
+        padding: 18px;
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: .3s;
+    }
+    .btn-ingresar:hover { background: #00467a; color: white; transform: translateY(-2px); }
+
+    /* FOOTER CON COLOR ORIGINAL */
+    .footer { 
+        background: #002060; /* Color azul recuperado */
+        color: white; 
+        text-align: center; 
+        padding: 15px; 
+        font-size: .85rem; 
+        flex: 0 0 auto; 
+    }
+
+    .modo-btn {
+        position: fixed;
+        left: 15px;
+        bottom: 20px;
+        background: #334155;
+        color: white;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: 600;
+        z-index: 9999;
+        text-decoration: none;
+    }
+
+    /* MODO PC - MANTIENE TODO GRANDE */
+    .totem-container.modo-pc { max-width: 100vw !important; width: 100vw !important; }
+    .totem-container.modo-pc .header { padding: 50px 20px; }
+    .totem-container.modo-pc .logo { height: 160px; }
+    .totem-container.modo-pc .header h1 { font-size: 2.5rem; }
+    .totem-container.modo-pc .welcome-title { font-size: 3.8rem; }
+    .totem-container.modo-pc .btn-ingresar { max-width: 450px; padding: 24px; font-size: 1.6rem; }
+
+    /* CORRECCIÓN PARA QUE NO SE CORTE EN TÓTEM SIN USAR SELECTORES COMPLEJOS */
+    @media (max-height: 650px) {
+        .logo { height: 50px; }
+        .header { padding: 10px; }
+        .welcome-title { margin-bottom: 10px; font-size: 1.5rem; }
+        .welcome-text { margin-bottom: 15px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="totem-container {% if modo_pc %}modo-pc{% endif %}">
+    <header class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo">
+        <h1>MÓDULO INTELIGENTE</h1>
+        <p>Sistema de Gestión de Objetos Perdidos</p>
+    </header>
+
+    <main class="main-content">
+        <h2 class="welcome-title">BIENVENIDO</h2>
+        <p class="welcome-text">Consulta o registra objetos perdidos de manera rápida y segura.</p>
+        <a href="{{ url_for('principal') }}" class="btn-ingresar">
+            <i class="fas fa-arrow-right me-2"></i>INGRESAR
+        </a>
+    </main>
+
+    <footer class="footer">CFT Tarapacá © 2026</footer>
+</div>
+
+{% if modo_pc %}
+    <a href="{{ url_for('activar_totem') }}" class="modo-btn"><i class="fas fa-mobile-alt me-1"></i> Modo Tótem</a>
+{% else %}
+    <a href="{{ url_for('activar_pc') }}" class="modo-btn"><i class="fas fa-desktop me-1"></i> Modo PC</a>
+{% endif %}
+
+</body>
+</html>
