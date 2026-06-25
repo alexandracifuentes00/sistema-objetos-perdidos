@@ -27,45 +27,29 @@ def principal():
 # ==========================================
 # REGISTRAR OBJETO
 # ==========================================
-@app.route("/registrar", methods=["GET", "POST"])
+# Ejemplo corregido para la función de registro
+@app.route("/registrar", methods=["POST"])
 def registrar_objeto():
-    if request.method == "POST":
-        try:
-            nombre = request.form["nombre"]
-            categoria = request.form["categoria"]
-            descripcion = request.form["descripcion"]
-            lugar = request.form["lugar"]
+    # 1. Primero capturamos del formulario
+    nombre = request.form.get("nombre") 
+    categoria = request.form.get("categoria")
+    descripcion = request.form.get("descripcion")
+    lugar = request.form.get("lugar")
+    estado = "Pendiente" # Valor por defecto
+    fecha = date.today()
+    ubicacion = "Biblioteca - Mostrador"
 
-            conn = get_db_connection()
-            with conn.cursor() as cur:
-                cur.execute("""
-                    INSERT INTO objetos_perdidos
-                            (
-                        nombre_objeto,
-                        categoria,
-                        descripcion,
-                        fecha_encontrado,
-                        lugar_encontrado,
-                        ubicacion_actual,
-                        estado
-                    )
-                    VALUES (%s,%s,%s,%s,%s,%s,%s) ttb
-                    """, (
-                    nombre,
-                    categoria,
-                    descripcion,
-                    date.today(),
-                    lugar,
-                    "Biblioteca - Mostrador",
-                    "Pendiente"
-                ))
-            conn.commit()
-            conn.close()
-            return redirect(url_for("principal"))
-        except Exception as e:
-            return f"Error al guardar: {e}"
-    
-        return render_template("registrar.html")
+    # 2. Luego usamos las variables en el INSERT
+    conn = get_db_connection()
+    with conn.cursor() as cur:
+        cur.execute("""
+            INSERT INTO objetos_perdidos 
+            (nombre_objeto, categoria, descripcion, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (nombre, categoria, descripcion, fecha, lugar, ubicacion, estado))
+        conn.commit()
+    conn.close()
+    return redirect(url_for("principal"))
 
 # ==========================================
 # CONTROL DE BÚSQUEDA DE OBJETOS
