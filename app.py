@@ -61,11 +61,17 @@ def dashboard():
     if not session.get("admin_autenticado"): return redirect(url_for("login_admin"))
     conn = get_db_connection()
     with conn.cursor() as cur:
+        # Primero contamos
         cur.execute("SELECT count(*) FROM objetos_perdidos")
-        cantidad = cur.fetchone()[0]
+        resultado_count = cur.fetchone()
+        cantidad = resultado_count[0] if resultado_count else 0
+        
+        # Luego buscamos los objetos
+        cur.execute("SELECT id, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos ORDER BY id DESC")
+        filas = cur.fetchall()
+        objetos = [{"id": f[0], "nombre": f[1], "categoria": f[2], "fecha": str(f[3]), "lugar": f[4], "ubicacion": f[5], "estado": f[6]} for f in filas]
     conn.close()
-    return f"La base de datos tiene {cantidad} objetos registrados."
-
+    return render_template("dashboard.html", objetos=objetos, cantidad=cantidad)
 # ==========================================
 # EDITAR Y ELIMINAR (CRUD)
 # ==========================================
