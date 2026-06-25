@@ -61,11 +61,10 @@ def dashboard():
     if not session.get("admin_autenticado"): return redirect(url_for("login_admin"))
     conn = get_db_connection()
     with conn.cursor() as cur:
-        cur.execute("SELECT id, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos ORDER BY id DESC")
-        filas = cur.fetchall()
-        objetos = [{"id": f[0], "nombre": f[1], "categoria": f[2], "fecha": str(f[3]), "lugar": f[4], "ubicacion": f[5], "estado": f[6]} for f in filas]
+        cur.execute("SELECT count(*) FROM objetos_perdidos")
+        cantidad = cur.fetchone()[0]
     conn.close()
-    return render_template("dashboard.html", objetos=objetos)
+    return f"La base de datos tiene {cantidad} objetos registrados."
 
 # ==========================================
 # EDITAR Y ELIMINAR (CRUD)
@@ -107,8 +106,11 @@ def eliminar_objeto(id):
 @app.route("/login_admin", methods=["GET", "POST"])
 def login_admin():
     if request.method == "POST":
-        if request.form.get("password") == "admin123":
+        password = request.form.get("password")
+        print(f"Intento de login con: {password}") # Mira esto en los Logs de Render
+        if password == "admin123":
             session["admin_autenticado"] = True
+            print("Login exitoso, redirigiendo al dashboard...")
             return redirect(url_for("dashboard"))
     return render_template("login_admin.html")
 
