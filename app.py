@@ -9,11 +9,15 @@ app.secret_key = "cft_tarapaca_2026"
 # ==========================================
 # PÁGINA INICIAL Y MENÚ
 # ==========================================
+# ==========================================
+# PÁGINA INICIAL
+# ==========================================
 @app.route('/')
 def index():
     conn = get_db_connection()
     with conn.cursor() as cur:
-        cur.execute('SELECT id, nombre_objeto, categoria, descripcion, lugar_encontrado, estado FROM objetos_perdidos')
+        # CORREGIDO: Usamos id_objeto
+        cur.execute('SELECT id_objeto, nombre_objeto, categoria, descripcion, lugar_encontrado, estado FROM objetos_perdidos')
         objetos = cur.fetchall()
     conn.close()
     return render_template('index.html', objetos=objetos)
@@ -73,31 +77,41 @@ def dashboard():
     if not session.get("admin_autenticado"): return redirect(url_for("login_admin"))
     conn = get_db_connection()
     with conn.cursor() as cur:
-        cur.execute("SELECT id, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos ORDER BY id DESC")
-        objetos = [{"id": f[0], "nombre": f[1], "categoria": f[2], "fecha": str(f[3]), "lugar": f[4], "ubicacion": f[5], "estado": f[6]} for f in cur.fetchall()]
+        # CORREGIDO: Usamos id_objeto
+        cur.execute("SELECT id_objeto, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos ORDER BY id_objeto DESC")
+        filas = cur.fetchall()
+        objetos = [{"id": f[0], "nombre": f[1], "categoria": f[2], "fecha": str(f[3]), "lugar": f[4], "ubicacion": f[5], "estado": f[6]} for f in filas]
     conn.close()
     return render_template("dashboard.html", objetos=objetos)
 
-@app.route("/editar/<int:id>", methods=["GET", "POST"])
-def editar_objeto(id):
+# ==========================================
+# EDITAR OBJETO
+# ==========================================
+@app.route("/editar/<int:id_objeto>", methods=["GET", "POST"])
+def editar_objeto(id_objeto):
     if not session.get("admin_autenticado"): return redirect(url_for("login_admin"))
     conn = get_db_connection()
     if request.method == "POST":
         with conn.cursor() as cur:
-            cur.execute("""UPDATE objetos_perdidos SET nombre_objeto=%s, categoria=%s, fecha_encontrado=%s, lugar_encontrado=%s, ubicacion_actual=%s, estado=%s WHERE id=%s""", 
-                        (request.form["nombre"], request.form["categoria"], request.form["fecha"], request.form["lugar"], request.form["ubicacion"], request.form["estado"], id))
+            # CORREGIDO: Usamos id_objeto en el WHERE
+            cur.execute("""UPDATE objetos_perdidos SET nombre_objeto=%s, categoria=%s, fecha_encontrado=%s, lugar_encontrado=%s, ubicacion_actual=%s, estado=%s WHERE id_objeto=%s""", 
+                        (request.form["nombre"], request.form["categoria"], request.form["fecha"], request.form["lugar"], request.form["ubicacion"], request.form["estado"], id_objeto))
             conn.commit()
         conn.close()
         return redirect(url_for("dashboard"))
     
     with conn.cursor() as cur:
-        cur.execute("SELECT id, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos WHERE id=%s", (id,))
+        cur.execute("SELECT id_objeto, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos WHERE id_objeto=%s", (id_objeto,))
         fila = cur.fetchone()
     conn.close()
+    
+    # Manejo de error si no existe el objeto
+    if not fila: return "Objeto no encontrado", 404
+    
     objeto = {"id": fila[0], "nombre": fila[1], "categoria": fila[2], "fecha": str(fila[3]), "lugar": fila[4], "ubicacion": fila[5], "estado": fila[6]}
     return render_template("editar.html", objeto=objeto)
 
-@app.route("/eliminar/<int:id>")
+@app.route("/eliminar/<int:id_objeto>")
 def eliminar_objeto(id):
     conn = get_db_connection()
     with conn.cursor() as cur:
