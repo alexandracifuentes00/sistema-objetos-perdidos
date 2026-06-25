@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, flash, render_template, request, redirect, url_for, session
 from conexion import get_db_connection
 import psycopg
 from datetime import date
@@ -13,7 +13,7 @@ app.secret_key = "cft_tarapaca_2026"
 @app.route('/')
 def index():
     conn = get_db_connection() # Usas el nombre nuevo
-    objetos = conn.execute('SELECT * FROM objetos').fetchall()
+    objetos = conn.execute('SELECT * FROM objetos_perdidos').fetchall()
     conn.close()
     return render_template('index.html', objetos=objetos)
 
@@ -70,46 +70,27 @@ def registrar_objeto():
 # ==========================================
 # CONTROL DE BÚSQUEDA DE OBJETOS
 # ==========================================
-@app.route("/buscar", methods=["GET", "POST"])
+@app.route('/buscar', methods=["GET", "POST"])
 def buscar_objeto():
     if request.method == "POST":
         nombre_buscar = request.form.get("nombre", "").strip()
-        if not nombre_buscar:
-            return render_template("sin_resultados.html", termino="búsqueda vacía")
-
-        try:
-            conn = get_db_connection()
-            with conn.cursor() as cur:
-            # Buscamos el primero que coincida exactamente o parcialmente
-                cur.execute("""
-                        SELECT id_objeto, nombre_objeto, categoria, descripcion, fecha_encontrado,
-                        lugar_encontrado, ubicacion_actual, estado
-                    FROM objetos_perdidos
-                    WHERE nombre_objeto ILIKE %s AND estado = 'Pendiente'
-                    LIMIT 1
-                    """, (f"%{nombre_buscar}%",))
+        conn = get_db_connection()
+        with conn.cursor() as cur:
+            # CORRECCIÓN: Usar SELECT para buscar, no INSERT
+            cur.execute("SELECT id_objeto, nombre_objeto, categoria, descripcion, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos WHERE nombre_objeto = %s", (nombre_buscar,))
             fila = cur.fetchone()
-            conn.close()
-            if fila is None:
-            # Si no hay resultados, renderizamos sin el objeto
-                return render_template("sin_resultados.html", termino=nombre_buscar)
-            # Si hay resultado, creamos el diccionario 'objeto' que el HTML espera
-            objeto = {
-                "id": fila[0],
-                "nombre": fila[1],
-                "categoria": fila[2],
-                "descripcion": fila[3],
-                "fecha": str(fila[4]),
-                "lugar": fila[5],
-                "ubicacion": fila[6],
-                "estado": fila[7]
-            }
-
-            # Importante: pasamos 'objeto' en singular, tal como está en tu HTML
-            return render_template("resultado.html", objeto=objeto)
-        except Exception as e:
-            return f"Error en la búsqueda: {e}"
-        return render_template("buscar.html")
+        conn.close()
+        
+        if fila is None:
+            return render_template("sin_resultados.html", termino=nombre_buscar)
+        
+        objeto = {
+            "id": fila[0], "nombre": fila[1], "categoria": fila[2], "descripcion": fila[3],
+            "fecha": str(fila[4]), "lugar": fila[5], "ubicacion": fila[6], "estado": fila[7]
+        }
+        return render_template("resultado.html", objeto=objeto)
+        
+    return render_template("buscar.html")
 
 # ==========================================
 # DETALLE DE RESULTADO INDIVIDUAL
