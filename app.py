@@ -51,25 +51,40 @@ def buscar_objeto():
             resultados = cur.fetchall()
         conn.close()
         return render_template("resultados.html", resultados=resultados)
-    return render_template("buscar.html")
+    return render_template("resultado.html", resultados=resultados)
 
 # ==========================================
 # DASHBOARD ADMINISTRATIVO
 # ==========================================
 @app.route("/dashboard")
 def dashboard():
-    if not session.get("admin_autenticado"): return redirect(url_for("login_admin"))
+    if not session.get("admin_autenticado"): 
+        return redirect(url_for("login_admin"))
+    
     conn = get_db_connection()
     with conn.cursor() as cur:
-        # Primero contamos
+        # Obtenemos la cantidad de otra forma para evitar errores
         cur.execute("SELECT count(*) FROM objetos_perdidos")
-        resultado_count = cur.fetchone()
-        cantidad = resultado_count[0] if resultado_count else 0
+        # Usamos fetchone() que devuelve una tupla
+        row = cur.fetchone()
+        cantidad = row[0] if row else 0
         
-        # Luego buscamos los objetos
+        # Obtenemos los objetos
         cur.execute("SELECT id, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos ORDER BY id DESC")
         filas = cur.fetchall()
-        objetos = [{"id": f[0], "nombre": f[1], "categoria": f[2], "fecha": str(f[3]), "lugar": f[4], "ubicacion": f[5], "estado": f[6]} for f in filas]
+        
+        # Procesamos los datos
+        objetos = []
+        for f in filas:
+            objetos.append({
+                "id": f[0], 
+                "nombre": f[1], 
+                "categoria": f[2], 
+                "fecha": str(f[3]), 
+                "lugar": f[4], 
+                "ubicacion": f[5], 
+                "estado": f[6]
+            })
     conn.close()
     return render_template("dashboard.html", objetos=objetos, cantidad=cantidad)
 # ==========================================
