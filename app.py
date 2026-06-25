@@ -27,29 +27,33 @@ def principal():
 # ==========================================
 # REGISTRAR OBJETO
 # ==========================================
-# Ejemplo corregido para la función de registro
-@app.route("/registrar", methods=["POST"])
+@app.route("/registrar", methods=["GET", "POST"])
 def registrar_objeto():
-    # 1. Primero capturamos del formulario
-    nombre = request.form.get("nombre") 
-    categoria = request.form.get("categoria")
-    descripcion = request.form.get("descripcion")
-    lugar = request.form.get("lugar")
-    estado = "Pendiente" # Valor por defecto
-    fecha = date.today()
-    ubicacion = "Biblioteca - Mostrador"
+    if request.method == "POST":
+        # 1. CAPTURAR DATOS: Esto elimina los errores "nombre is not defined"
+        nombre = request.form.get("nombre") 
+        categoria = request.form.get("categoria")
+        descripcion = request.form.get("descripcion")
+        lugar = request.form.get("lugar")
 
-    # 2. Luego usamos las variables en el INSERT
-    conn = get_db_connection()
-    with conn.cursor() as cur:
-        cur.execute("""
-            INSERT INTO objetos_perdidos 
-            (nombre_objeto, categoria, descripcion, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (nombre, categoria, descripcion, fecha, lugar, ubicacion, estado))
+        # 2. DEFINIR VALORES FIJOS
+        fecha = date.today()
+        ubicacion = "Biblioteca - Mostrador"
+        estado = "Pendiente"
+
+        # 3. EJECUTAR BASE DE DATOS
+        conn = get_db_connection()
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO objetos_perdidos 
+                (nombre_objeto, categoria, descripcion, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, (nombre, categoria, descripcion, fecha, lugar, ubicacion, estado))
         conn.commit()
-    conn.close()
-    return redirect(url_for("principal"))
+        conn.close()
+        return redirect(url_for("principal"))
+    
+    return render_template("registrar.html")
 
 # ==========================================
 # CONTROL DE BÚSQUEDA DE OBJETOS
