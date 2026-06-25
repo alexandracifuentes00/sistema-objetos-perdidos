@@ -30,25 +30,23 @@ def principal():
 @app.route("/registrar", methods=["GET", "POST"])
 def registrar_objeto():
     if request.method == "POST":
-        # 1. CAPTURAR DATOS: Esto elimina los errores "nombre is not defined"
-        nombre = request.form.get("nombre") 
+        # Estos nombres ("nombre", "categoria", "lugar", "fecha", "ubicacion", "descripcion")
+        # DEBEN coincidir exactamente con los 'name' de tu HTML.
+        nombre = request.form.get("nombre")
         categoria = request.form.get("categoria")
-        descripcion = request.form.get("descripcion")
         lugar = request.form.get("lugar")
+        fecha = request.form.get("fecha")
+        ubicacion = request.form.get("ubicacion")
+        descripcion = request.form.get("descripcion")
+        estado = "Pendiente" # Valor predeterminado
 
-        # 2. DEFINIR VALORES FIJOS
-        fecha = date.today()
-        ubicacion = "Biblioteca - Mostrador"
-        estado = "Pendiente"
-
-        # 3. EJECUTAR BASE DE DATOS
         conn = get_db_connection()
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO objetos_perdidos 
-                (nombre_objeto, categoria, descripcion, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado)
+                (nombre_objeto, categoria, lugar_encontrado, fecha_encontrado, ubicacion_actual, descripcion, estado)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, (nombre, categoria, descripcion, fecha, lugar, ubicacion, estado))
+            """, (nombre, categoria, lugar, fecha, ubicacion, descripcion, estado))
         conn.commit()
         conn.close()
         return redirect(url_for("principal"))
