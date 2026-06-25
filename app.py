@@ -16,7 +16,7 @@ app.secret_key = "cft_tarapaca_2026"
 def index():
     conn = get_db_connection()
     with conn.cursor() as cur:
-        # CORREGIDO: Usamos id_objeto
+        # CAMBIADO: 'id' a 'id_objeto'
         cur.execute('SELECT id_objeto, nombre_objeto, categoria, descripcion, lugar_encontrado, estado FROM objetos_perdidos')
         objetos = cur.fetchall()
     conn.close()
@@ -77,7 +77,7 @@ def dashboard():
     if not session.get("admin_autenticado"): return redirect(url_for("login_admin"))
     conn = get_db_connection()
     with conn.cursor() as cur:
-        # CORREGIDO: Usamos id_objeto
+        # CAMBIADO: 'id' a 'id_objeto'
         cur.execute("SELECT id_objeto, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos ORDER BY id_objeto DESC")
         filas = cur.fetchall()
         objetos = [{"id": f[0], "nombre": f[1], "categoria": f[2], "fecha": str(f[3]), "lugar": f[4], "ubicacion": f[5], "estado": f[6]} for f in filas]
@@ -140,6 +140,17 @@ def enviar_feedback():
         conn.commit()
     conn.close()
     return redirect(url_for("principal"))
+    
+    # --- AÑADE ESTAS RUTAS PARA CORREGIR EL BUILDERROR ---
+@app.route("/activar_pc")
+def activar_pc():
+    session["modo_pc"] = True
+    return redirect(request.referrer or url_for("principal"))
+
+@app.route("/activar_totem")
+def activar_totem():
+    session["modo_pc"] = False
+    return redirect(request.referrer or url_for("principal"))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
