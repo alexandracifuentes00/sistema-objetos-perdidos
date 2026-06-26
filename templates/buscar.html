@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido - Módulo Inteligente</title>
+    <title>Buscar Objeto - CFT Tarapacá</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
 <style>
     html, body {
@@ -35,51 +35,49 @@
         width: 100% !important;
     }
 
-    .logo-pc { 
-        max-width: 180px; 
-        height: auto;
-        margin-bottom: 20px; 
-    }
-    
-    .content-full {
+    .form-container-full {
         flex: 1;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: 40px;
         background: white !important;
     }
 
-    .btn-ingresar-pc {
+    .form-wrapper-inner {
         width: 100%;
-        max-width: 450px;
-        background: #005694;
-        border: none;
-        color: white !important;
-        padding: 22px;
-        border-radius: 15px;
-        font-size: 1.5rem;
-        font-weight: 700;
-        text-decoration: none;
-        text-align: center;
-        box-shadow: 0 5px 15px rgba(0, 86, 148, 0.4);
-        transition: .3s ease;
+        max-width: 550px;
     }
-    .btn-ingresar-pc:hover { 
-        background: #00467a; 
-        transform: translateY(-3px); 
+
+    .btn-buscar-pc {
+        background-color: #16a34a !important;
+        border: none !important;
+        color: white !important;
+        padding: 18px !important;
+        font-size: 1.3rem !important;
+        transition: .3s;
+    }
+    .btn-buscar-pc:hover { 
+        background-color: #15803d !important; 
+        transform: translateY(-2px);
     }
 
     /* BARRA INFERIOR AZUL INSTITUCIONAL CORREGIDA */
-    .footer-full { 
-        background: #002060 !important;
-        color: white !important; 
-        text-align: center; 
-        padding: 20px; 
-        font-size: .9rem; 
-        font-weight: 600;
+    .footer-full {
+        background-color: #002060 !important;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         width: 100% !important;
+        color: white !important;
+    }
+    
+    .nav-home-pc { 
+        color: white !important; 
+        font-weight: 700; 
+        text-decoration: none; 
+        font-size: 1.1rem;
     }
 </style>
 </head>
@@ -87,21 +85,32 @@
 
 <div class="full-page-viewport">
     <header class="header-full">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo-pc">
-        <h1 class="fw-bold m-0 text-white">MÓDULO INTELIGENTE</h1>
+        <h2 class="m-0 fw-bold text-white"><i class="fas fa-search me-2"></i>BUSCAR OBJETO</h2>
     </header>
 
-    <div class="content-full">
-        <h2 class="fw-bold text-dark mb-3 fs-1">¡Bienvenido!</h2>
-        <p class="text-muted fs-4 mb-5 text-center">Sistema Inteligente de Gestión y Consulta de Objetos Perdidos</p>
-        
-        <a href="{{ url_for('principal') }}" class="btn-ingresar-pc">
-            <i class="fas fa-right-to-bracket me-2"></i>INGRESAR AL MÓDULO
-        </a>
-    </div>
+    <main class="form-container-full">
+        <div class="form-wrapper-inner">
+            <form action="{{ url_for('buscar_objeto') }}" method="POST">
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-secondary fs-4 mb-3">Nombre del objeto que busca</label>
+                    <input type="text" name="nombre" class="form-control form-control-lg py-3" placeholder="Ej: mochila, llaves, pendrive..." maxlength="80" required autocomplete="off">
+                </div>
+
+                <div class="d-grid gap-3">
+                    <button type="submit" class="btn btn-buscar-pc fw-bold rounded-3 shadow">
+                        <i class="fas fa-search me-2"></i>BUSCAR AHORA
+                    </button>
+                    <a href="{{ url_for('principal') }}" class="btn btn-outline-secondary py-3 fw-semibold">
+                        <i class="fas fa-arrow-left me-2"></i>REGRESAR AL MENÚ
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
 
     <footer class="footer-full">
-        © 2026 Centro de Formación Técnica Tarapacá. Todos los derechos reservados.
+        <a href="{{ url_for('index') }}" class="nav-home-pc"><i class="fas fa-home me-1"></i> INICIO</a>
+        <div><i class="fas fa-info-circle fs-4" style="color: white;"></i></div>
     </footer>
 </div>
 
