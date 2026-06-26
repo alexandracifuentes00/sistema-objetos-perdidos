@@ -2,6 +2,7 @@ from flask import Flask, flash, render_template, request, redirect, url_for, ses
 from conexion import get_db_connection
 import psycopg
 from datetime import date
+import os
 
 app = Flask(__name__)
 app.secret_key = "cft_tarapaca_2026"
@@ -67,13 +68,15 @@ def buscar_objeto():
         conn.close()
 
         if not resultados:
+            # CORREGIDO: Se cambió 'sin_resultado.html' a 'sin_resultados.html'
             return render_template(
-                "sin_resultado.html",
+                "sin_resultados.html",
                 termino=nombre
             )
 
+        # CORREGIDO: Se cambió 'resultados.html' a 'resultado.html'
         return render_template(
-            "resultados.html",
+            "resultado.html",
             resultados=resultados
         )
 
@@ -89,7 +92,9 @@ def dashboard():
     conn = get_db_connection()
     with conn.cursor() as cur:
         cur.execute("SELECT COUNT(*) AS total FROM objetos_perdidos")
-        cantidad = cur.fetchone()[0]
+        # CORREGIDO: Al usar dict_row se debe acceder mediante la clave ['total']
+        cantidad = cur.fetchone()['total']
+        
         cur.execute("""
             SELECT
                 id,
@@ -113,6 +118,7 @@ def dashboard():
         objetos=objetos,
         cantidad=cantidad
     )
+
 # ==========================================
 # EDITAR Y ELIMINAR (CRUD)
 # ==========================================
@@ -148,6 +154,7 @@ def editar_objeto(id):
         conn.close()
         flash("Objeto actualizado correctamente.", "success")
         return redirect(url_for("dashboard"))
+        
     with conn.cursor() as cur:
         cur.execute("""
             SELECT *
@@ -159,6 +166,7 @@ def editar_objeto(id):
     if objeto is None:
         return "Objeto no encontrado", 404
     return render_template("editar.html", objeto=objeto)
+
 #==========================================
 # ELIMINAR OBJETO
 #==========================================
@@ -209,9 +217,11 @@ def enviar_feedback():
     conn.close()
     return redirect(url_for("principal"))
 
+    @app.route("/sugerencias")
+def sugerencias():
+    return render_template("sugerencias.html")
 
-import os
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=True)
