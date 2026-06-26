@@ -9,43 +9,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html, body {
-        height: 100%;
-        width: 100% !important;
-        max-width: 100% !important;
+        height: 100vh;
+        width: 100vw;
         margin: 0;
         padding: 0;
-        background: #002060 !important; /* Fondo azul completo en PC */
+        background: #002060 !important; /* Un solo fondo institucional para toda la PC */
+        font-family: 'Segoe UI', sans-serif;
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    /* CONTENEDOR EXPANDIDO PARA PC */
-    .totem-container {
-        width: 90% !important;
-        max-width: 1200px !important; /* Se vuelve gigante y centrado en PC */
-        height: 80vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,.3);
         overflow: hidden;
     }
 
-    .header {
+    .main-box-pc {
+        width: 90% !important;
+        max-width: 1100px !important;
+        height: 80vh;
+        background: white !important;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,.4);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+    }
+
+    .header-pc {
         background: #002060;
         color: white;
-        padding: 40px;
+        padding: 30px;
         text-align: center;
     }
-    .logo { max-width: 180px; margin-bottom: 20px; }
+
+    .logo-pc { 
+        max-width: 160px; 
+        margin-bottom: 15px; 
+    }
     
-    .content {
+    .content-pc {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -54,48 +56,55 @@
         padding: 40px;
     }
 
-    .btn-ingresar {
+    .btn-ingresar-pc {
         width: 100%;
-        max-width: 400px;
+        max-width: 450px;
         background: #005694;
         border: none;
-        color: white;
-        padding: 20px;
-        border-radius: 12px;
-        font-size: 1.4rem;
+        color: white !important;
+        padding: 22px;
+        border-radius: 15px;
+        font-size: 1.5rem;
         font-weight: 700;
         text-decoration: none;
         text-align: center;
-        transition: .3s;
+        box-shadow: 0 5px 15px rgba(0, 86, 148, 0.4);
+        transition: .3s ease;
     }
-    .btn-ingresar:hover { background: #00467a; color: white; transform: translateY(-2px); }
+    .btn-ingresar-pc:hover { 
+        background: #00467a; 
+        transform: translateY(-3px); 
+    }
 
-    .footer { 
-        background: #002060;
-        color: white; 
+    .footer-pc { 
+        background: #f1f5f9;
+        color: #334155; 
         text-align: center; 
         padding: 15px; 
         font-size: .9rem; 
+        font-weight: 600;
+        border-top: 1px solid #e2e8f0;
     }
 </style>
 </head>
 <body>
 
-<div class="totem-container">
-    <header class="header text-center py-4">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo">
-        <h1 class="fw-bold text-white">MÓDULO INTELIGENTE</h1>
+<div class="main-box-pc">
+    <header class="header-pc">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo-pc">
+        <h1 class="fw-bold m-0 text-white">MÓDULO INTELIGENTE</h1>
     </header>
 
-    <div class="content">
-        <h2 class="fw-bold text-dark mb-3">¡Bienvenido!</h2>
-        <p class="welcome-text text-muted fs-5 mb-4 text-center">Sistema Inteligente de Gestión y Consulta de Objetos Perdidos</p>
-        <a href="{{ url_for('principal') }}" class="btn-ingresar shadow">
+    <div class="content-pc">
+        <h2 class="fw-bold text-dark mb-2 fs-1">¡Bienvenido!</h2>
+        <p class="text-muted fs-4 mb-5 text-center">Sistema Inteligente de Gestión y Consulta de Objetos Perdidos</p>
+        
+        <a href="{{ url_for('principal') }}" class="btn-ingresar-pc">
             <i class="fas fa-right-to-bracket me-2"></i>INGRESAR AL MÓDULO
         </a>
     </div>
 
-    <footer class="footer">
+    <footer class="footer-pc">
         © 2026 Centro de Formación Técnica Tarapacá. Todos los derechos reservados.
     </footer>
 </div>
