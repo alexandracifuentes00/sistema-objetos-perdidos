@@ -112,21 +112,6 @@
         text-decoration: none;
     }
 
-    /* MODO PC - MANTIENE TODO GRANDE */
-    .totem-container.modo-pc { max-width: 100vw !important; width: 100vw !important; }
-    .totem-container.modo-pc .header { padding: 50px 20px; }
-    .totem-container.modo-pc .logo { height: 160px; }
-    .totem-container.modo-pc .header h1 { font-size: 2.5rem; }
-    .totem-container.modo-pc .welcome-title { font-size: 3.8rem; }
-    .totem-container.modo-pc .btn-ingresar { max-width: 450px; padding: 24px; font-size: 1.6rem; }
-
-    /* CORRECCIÓN PARA QUE NO SE CORTE EN TÓTEM SIN USAR SELECTORES COMPLEJOS */
-    @media (max-height: 650px) {
-        .logo { height: 50px; }
-        .header { padding: 10px; }
-        .welcome-title { margin-bottom: 10px; font-size: 1.5rem; }
-        .welcome-text { margin-bottom: 15px; }
-    }
 </style>
 </head>
 <body>
@@ -148,12 +133,6 @@
 
     <footer class="footer">CFT Tarapacá © 2026</footer>
 </div>
-
-{% if modo_pc %}
-    <a href="{{ url_for('activar_totem') }}" class="modo-btn"><i class="fas fa-mobile-alt me-1"></i> Modo Tótem</a>
-{% else %}
-    <a href="{{ url_for('activar_pc') }}" class="modo-btn"><i class="fas fa-desktop me-1"></i> Modo PC</a>
-{% endif %}
 
 </body>
 </html>
