@@ -60,7 +60,6 @@ def buscar_objeto():
                     estado
                 FROM objetos_perdidos
                 WHERE nombre_objeto ILIKE %s
-                ORDER BY nombre_objeto
             """, (f"%{nombre}%",))
 
             resultados = cur.fetchall()
