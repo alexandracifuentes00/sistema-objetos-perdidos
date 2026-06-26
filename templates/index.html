@@ -30,17 +30,22 @@
     .header-full {
         background: #002060;
         color: white;
-        padding: 35px 20px;
+        padding: 40px 20px;
         text-align: center;
         width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* TAMAÑO DEL LOGO EN CANDIDATO A MÁS GRANDE */
+    /* LOGO GRANDE INSTITUCIONAL */
     .logo-pc { 
         width: 100%;
-        max-width: 450px; /* Aumentado para que resalte mucho más */
+        max-width: 480px; 
         height: auto;
-        margin-bottom: 15px; 
+        margin-bottom: 20px; 
+        display: block;
     }
     
     .content-full {
@@ -73,14 +78,17 @@
         transform: translateY(-3px); 
     }
 
+    /* BARRA INFERIOR OPTIMIZADA EN ALTO CONTRASTE BLANCO SOBRE AZUL */
     .footer-full { 
         background: #002060 !important;
-        color: white !important; 
+        color: #ffffff !important; 
         text-align: center; 
-        padding: 20px; 
-        font-size: .9rem; 
+        padding: 22px 20px; 
+        font-size: 1rem; 
         font-weight: 600;
         width: 100% !important;
+        letter-spacing: 0.5px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 </style>
 </head>
@@ -89,7 +97,7 @@
 <div class="full-page-viewport">
     <header class="header-full">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo-pc">
-        <h1 class="fw-bold m-0 text-white fs-2">MÓDULO INTELIGENTE</h1>
+        <h1 class="fw-bold m-0 text-white fs-1">MÓDULO INTELIGENTE</h1>
     </header>
 
     <div class="content-full">
