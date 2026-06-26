@@ -90,7 +90,7 @@ def dashboard():
     conn = get_db_connection()
     with conn.cursor() as cur:
         cur.execute("SELECT COUNT(*) AS total FROM objetos_perdidos")
-        cantidad = cur.fetchone()["total"]
+        cantidad = cur.fetchone()[0]
         cur.execute("""
             SELECT
                 id,

@@ -10,6 +10,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
+        
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+    }
+
+.container {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
         .modo-btn{
             position: fixed;
             left: 15px;
@@ -35,18 +47,16 @@
     {% block estilos %}{% endblock %}
 </head>
 
-<body>
+<body style="min-height:100vh; display:flex; flex-direction:column;">
 
-    <!-- BOTÓN INICIO -->
-    <a href="/principal" class="modo-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
+<a href="/principal" class="modo-btn">
+    <i class="fas fa-home"></i> Inicio
+</a>
 
-    <!-- CONTENIDO REAL DE LAS PÁGINAS -->
-    <div class="container mt-4">
-        {% block contenido %}
-        {% endblock %}
-    </div>
+<main style="flex:1; width:100%;">
+    {% block contenido %}
+    {% endblock %}
+</main>
 
 </body>
 </html>
