@@ -27,10 +27,11 @@
         justify-content: space-between;
     }
 
+    /* CABECERA CON ESPACIO OPTIMIZADO */
     .header-full {
         background: #002060;
         color: white;
-        padding: 50px 20px; /* Aumentado sutilmente para dar más aire */
+        padding: 25px 20px; /* Equilibrio perfecto de aire arriba y abajo */
         text-align: center;
         width: 100% !important;
         display: flex;
@@ -39,12 +40,12 @@
         justify-content: center;
     }
 
-    /* TAMAÑO EQUILIBRADO Y PROFESIONAL DEL LOGO */
+    /* LOGO FIJADO EXACTAMENTE A 320PX */
     .logo-pc { 
         width: 100%;
-        max-width: 400px; /* Reducido de 480px a 320px para una proporción perfecta */
+        max-width: 320px; /* El tamaño correcto que elegiste */
         height: auto;
-        margin-bottom: 25px; 
+        margin-bottom: 15px; 
         display: block;
     }
     
@@ -54,7 +55,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 40px;
+        padding: 15px 40px; /* Reducido para dar holgura al footer */
         background: white !important;
     }
 
@@ -64,7 +65,7 @@
         background: #005694;
         border: none;
         color: white !important;
-        padding: 22px;
+        padding: 20px;
         border-radius: 15px;
         font-size: 1.5rem;
         font-weight: 700;
@@ -78,11 +79,12 @@
         transform: translateY(-3px); 
     }
 
+    /* BARRA INFERIOR TOTALMENTE VISIBLE */
     .footer-full { 
         background: #002060 !important;
         color: #ffffff !important; 
         text-align: center; 
-        padding: 22px 20px; 
+        padding: 18px 20px; 
         font-size: 1rem; 
         font-weight: 600;
         width: 100% !important;
@@ -96,12 +98,12 @@
 <div class="full-page-viewport">
     <header class="header-full">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo-pc">
-        <h1 class="fw-bold m-0 text-white fs-1">MÓDULO INTELIGENTE</h1>
+        <h1 class="fw-bold m-0 text-white fs-2">MÓDULO INTELIGENTE</h1>
     </header>
 
     <div class="content-full">
-        <h2 class="fw-bold text-dark mb-3 fs-1">¡Bienvenido!</h2>
-        <p class="text-muted fs-4 mb-5 text-center">Sistema Inteligente de Gestión y Consulta de Objetos Perdidos</p>
+        <h2 class="fw-bold text-dark mb-2 fs-1">¡Bienvenido!</h2>
+        <p class="text-muted fs-4 mb-4 text-center">Sistema Inteligente de Gestión y Consulta de Objetos Perdidos</p>
         
         <a href="{{ url_for('principal') }}" class="btn-ingresar-pc">
             <i class="fas fa-right-to-bracket me-2"></i>INGRESAR AL MÓDULO
