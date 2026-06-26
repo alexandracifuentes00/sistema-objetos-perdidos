@@ -12,47 +12,42 @@
     html, body {
         height: 100vh;
         width: 100vw;
-        margin: 0;
-        padding: 0;
-        background: #002060 !important; /* Mismo fondo azul unificado */
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
         font-family: 'Segoe UI', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         overflow: hidden;
     }
 
-    .main-box-pc {
-        width: 90% !important;
-        max-width: 1100px !important;
-        height: 80vh;
-        background: white !important;
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0,0,0,.4);
+    /* CONTENEDOR TOTAL SIN BORDES NI ÓVALOS */
+    .full-page-viewport {
+        width: 100% !important;
+        height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        overflow: hidden;
     }
 
-    .header-pc {
+    .header-full {
         background: #002060;
         color: white;
-        padding: 30px;
+        padding: 40px 20px;
         text-align: center;
+        width: 100% !important;
     }
 
-    .form-container-pc {
+    .form-container-full {
         flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 40px;
+        background: white !important;
     }
 
     .form-wrapper-inner {
         width: 100%;
-        max-width: 550px; /* Centra el campo en el medio de la pantalla ancha */
+        max-width: 550px; /* Mantiene el formulario cómodo en el centro */
     }
 
     .btn-buscar-pc {
@@ -68,13 +63,14 @@
         transform: translateY(-2px);
     }
 
-    .footer-pc {
+    .footer-full {
         background-color: #f1f5f9;
         padding: 20px 40px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-top: 1px solid #e2e8f0;
+        width: 100% !important;
     }
     
     .nav-home-pc { 
@@ -87,12 +83,12 @@
 </head>
 <body>
 
-<div class="main-box-pc">
-    <header class="header-pc">
+<div class="full-page-viewport">
+    <header class="header-full">
         <h2 class="m-0 fw-bold text-white"><i class="fas fa-search me-2"></i>BUSCAR OBJETO</h2>
     </header>
 
-    <main class="form-container-pc">
+    <main class="form-container-full">
         <div class="form-wrapper-inner">
             <form action="{{ url_for('buscar_objeto') }}" method="POST">
                 <div class="mb-4">
@@ -112,7 +108,7 @@
         </div>
     </main>
 
-    <footer class="footer-pc">
+    <footer class="footer-full">
         <a href="{{ url_for('index') }}" class="nav-home-pc"><i class="fas fa-home me-1"></i> INICIO</a>
         <div><i class="fas fa-info-circle fs-4" style="color: #002060;"></i></div>
     </footer>

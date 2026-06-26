@@ -12,34 +12,28 @@
     html, body {
         height: 100vh;
         width: 100vw;
-        margin: 0;
-        padding: 0;
-        background: #002060 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
         font-family: 'Segoe UI', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         overflow: hidden;
     }
 
-    .main-box-pc {
-        width: 90% !important;
-        max-width: 1100px !important;
-        height: 80vh;
-        background: white !important;
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0,0,0,.4);
+    /* CONTENEDOR TOTAL SIN BORDES NI ÓVALOS */
+    .full-page-viewport {
+        width: 100% !important;
+        height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        overflow: hidden;
     }
 
-    .header-pc {
+    .header-full {
         background: #002060;
         color: white;
         padding: 40px 20px;
         text-align: center;
+        width: 100% !important;
     }
 
     .logo-pc { 
@@ -48,13 +42,14 @@
         margin-bottom: 20px; 
     }
     
-    .content-pc {
+    .content-full {
         flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: 40px;
+        background: white !important;
     }
 
     .btn-ingresar-pc {
@@ -77,35 +72,36 @@
         transform: translateY(-3px); 
     }
 
-    .footer-pc { 
+    .footer-full { 
         background: #f1f5f9;
         color: #334155; 
         text-align: center; 
-        padding: 15px; 
+        padding: 20px; 
         font-size: .9rem; 
         font-weight: 600;
         border-top: 1px solid #e2e8f0;
+        width: 100% !important;
     }
 </style>
 </head>
 <body>
 
-<div class="main-box-pc">
-    <header class="header-pc">
+<div class="full-page-viewport">
+    <header class="header-full">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo-pc">
         <h1 class="fw-bold m-0 text-white">MÓDULO INTELIGENTE</h1>
     </header>
 
-    <div class="content-pc">
+    <div class="content-full">
         <h2 class="fw-bold text-dark mb-3 fs-1">¡Bienvenido!</h2>
         <p class="text-muted fs-4 mb-5 text-center">Sistema Inteligente de Gestión y Consulta de Objetos Perdidos</p>
         
-        <a href="{{ url_for('principal') }}" class="btn-ingresar-pc shadow">
+        <a href="{{ url_for('principal') }}" class="btn-ingresar-pc">
             <i class="fas fa-right-to-bracket me-2"></i>INGRESAR AL MÓDULO
         </a>
     </div>
 
-    <footer class="footer-pc">
+    <footer class="footer-full">
         © 2026 Centro de Formación Técnica Tarapacá. Todos los derechos reservados.
     </footer>
 </div>
