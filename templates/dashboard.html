@@ -8,19 +8,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
- <style>
-        /* =======================================================
-           CONFIGURACIÓN BASE DEL PANEL ADMINISTRATIVO
-           ======================================================= */
-        body {
+    <style>
+        /* FORCE COMPLETE PANTALLA ANCHA (PC) */
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
             background: #f4f6f9 !important;
             font-family: 'Segoe UI', sans-serif !important;
+            display: block !important;
+        }
+
+        .container-fluid {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 100% !important;
+            padding-left: 30px !important;
+            padding-right: 30px !important;
+        }
+
+        .row {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            width: 100% !important;
+            margin: 0 !important;
         }
 
         .navbar-admin {
             background: #002060 !important;
             color: white !important;
-            padding: 15px 25px !important;
+            padding: 15px 30px !important;
+            width: 100% !important;
         }
 
         .sidebar-card {
@@ -28,6 +48,7 @@
             border-radius: 15px !important;
             padding: 20px !important;
             box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
+            width: 100% !important;
         }
 
         .content-card {
@@ -35,6 +56,7 @@
             border-radius: 15px !important;
             padding: 25px !important;
             box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
+            width: 100% !important;
         }
 
         .stat-card {
@@ -59,56 +81,22 @@
             color: white !important;
         }
 
-        /* =======================================================
-           FUERZA BRUTA: EXPANSIÓN A TODA LA PANTALLA (PC MODO)
-           ======================================================= */
-        html, body {
-            width: 100% !important;
-            max-width: 100% !important;
-            min-width: 100% !important;
-            overflow-x: hidden !important;
-            display: block !important; /* Rompe el centrado vertical del Tótem */
-        }
-
-        /* Obliga al contenedor de Bootstrap a estirarse al 100% real */
-        .container-fluid {
-            width: 100% !important;
-            max-width: 100% !important;
-            min-width: 100% !important;
-            padding-left: 30px !important;
-            padding-right: 30px !important;
-        }
-
-        /* Asegura que la fila use todo el espacio horizontal libre */
-        .row {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            width: 100% !important;
-            margin-right: 0 !important;
-            margin-left: 0 !important;
-        }
-
-        /* Las tarjetas internas usarán todo lo que les dé su columna */
-        .sidebar-card, .content-card {
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-
-        /* Control de desborde horizontal para la tabla */
         .table-responsive {
             width: 100% !important;
             overflow-x: auto !important;
         }
 
-        /* Re-mapeo estricto de columnas en monitores de computadora */
+        /* DISEÑO DE COLUMNAS ESTRICTO PARA MONITOR ANCHO */
         @media (min-width: 768px) {
-            .col-md-8 {
-                flex: 0 0 auto !important;
-                width: 25% !important; /* Transforma el bloque del menú a la izquierda (1/4 de pantalla) */
+            .col-menu-custom {
+                width: 20% !important; /* El menú usará el 20% de la pantalla */
+                flex: 0 0 20% !important;
+                max-width: 20% !important;
             }
-            .col-md-9 {
-                flex: 0 0 auto !important;
-                width: 75% !important; /* Transforma el bloque de la tabla a la derecha (3/4 de pantalla) */
+            .col-tabla-custom {
+                width: 80% !important; /* La tabla usará el 80% restante de la pantalla */
+                flex: 0 0 80% !important;
+                max-width: 80% !important;
             }
         }
     </style>
@@ -116,40 +104,40 @@
 
 <body>
 
-<header class="navbar-admin d-flex justify-content-between align-items-center">
-    <h4 class="m-0">
+<header class="navbar-admin d-flex justify-content-between align-items-center mb-4">
+    <h4 class="m-0 fw-bold">
         <i class="fas fa-user-shield me-2"></i>
         PANEL ADMINISTRATIVO
     </h4>
 
     <div class="d-flex gap-2">
-        <a href="/principal" class="btn btn-outline-light">
+        <a href="/principal" class="btn btn-outline-lightfw-bold">
             <i class="fas fa-house me-1"></i> Volver al Tótem
         </a>
-        <a href="{{ url_for('logout') }}" class="btn btn-outline-light">
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-light fw-bold">
             <i class="fas fa-sign-out-alt"></i> Cerrar sesión
         </a>
     </div>
 </header>
 
-<div class="container-fluid mt-4 px-4">
+<div class="container-fluid">
     <div class="row">
 
-        <div class="col-lg-3 col-md-4 mb-4">
+        <div class="col-menu-custom pe-3 mb-4">
             <div class="sidebar-card">
                 <h5 class="fw-bold mb-3">Menú</h5>
                 <div class="d-grid gap-2">
-                    <a href="/dashboard?accion=actualizar" class="btn btn-primary" style="background-color: #002060; border: none;">
+                    <a href="/dashboard?accion=actualizar" class="btn btn-primary fw-bold" style="background-color: #002060; border: none;">
                         <i class="fas fa-history me-2"></i> Historial
                     </a>
-                    <a href="#" class="btn btn-warning disabled">
+                    <a href="#" class="btn btn-warning disabled fw-bold">
                         <i class="fas fa-comment me-2"></i> Feedback
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-9 col-md-8 mb-4">
+        <div class="col-tabla-custom ps-3 mb-4">
             <div class="content-card">
 
                 {% if vista_actual == "feedback" %}
@@ -188,52 +176,55 @@
 
                 {% else %}
                 <div class="row mb-4">
-                    <div class="col-md-4">
+                    <div class="col-md-4 p-0">
                         <div class="stat-card">
-                            <h6>Total Objetos</h6>
-                            <h2>{{ objetos|length }}</h2>
+                            <h6 class="text-muted fw-bold">Total Objetos Registrados</h6>
+                            <h2 class="fw-bold m-0 text-primary">{{ objetos|length }}</h2>
                         </div>
                     </div>
                 </div>
 
                 <h3 class="fw-bold mb-4">
-                    <i class="fas fa-history text-primary"></i> Historial de Objetos
+                    <i class="fas fa-history text-primary"></i> Historial de Objetos Perdidos
                 </h3>
 
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
-                        <thead class="table-primary" style="--bs-table-bg: #002060; --bs-table-color: white;">
+                        <thead style="background-color: #002060; color: white;">
                             <tr>
-                                <th>ID</th>
-                                <th>Objeto</th>
-                                <th>Categoría</th>
-                                <th>Fecha</th>
-                                <th>Lugar</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
+                                <th class="p-3">ID</th>
+                                <th class="p-3">Objeto</th>
+                                <th class="p-3">Categoría</th>
+                                <th class="p-3">Fecha Encontrado</th>
+                                <th class="p-3">Lugar Encontrado</th>
+                                <th class="p-3">Estado</th>
+                                <th class="p-3 text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for obj in objetos %}
                             <tr>
-                                <td>#{{ obj.id }}</td>
-                                <td class="fw-semibold">{{ obj.nombre_objeto }}</td> <td>{{ obj.categoria }}</td>
-                                <td>{{ obj.fecha_encontrado }}</td> <td>{{ obj.lugar_encontrado }}</td> <td>
+                                <td class="p-3">#{{ obj.id }}</td>
+                                <td class="p-3 fw-semibold text-dark">{{ obj.nombre_objeto }}</td>
+                                <td class="p-3">{{ obj.categoria }}</td>
+                                <td class="p-3">{{ obj.fecha_encontrado }}</td>
+                                <td class="p-3">{{ obj.lugar_encontrado }}</td>
+                                <td class="p-3">
                                     {% if obj.estado == "Pendiente" %}
-                                    <span class="badge badge-pendiente">Pendiente</span>
+                                    <span class="badge badge-pendiente px-3 py-2 fs-6">Pendiente</span>
                                     {% else %}
-                                    <span class="badge badge-entregado">Entregado</span>
+                                    <span class="badge badge-entregado px-3 py-2 fs-6">Entregado</span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td class="p-3 text-center">
                                     <div class="btn-group" role="group">
-                                        <a href="/editar/{{ obj.id }}" class="btn btn-sm btn-success">
-                                            <i class="fas fa-edit"></i> Editar
+                                        <a href="/editar/{{ obj.id }}" class="btn btn-sm btn-success px-3">
+                                            <i class="fas fa-edit me-1"></i> Editar
                                         </a>
                                         <a href="/eliminar/{{ obj.id }}" 
-                                            class="btn btn-sm btn-danger" 
+                                            class="btn btn-sm btn-danger px-3" 
                                             onclick="return confirm('¿Está seguro de que desea eliminar permanentemente este objeto del historial?');">
-                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                            <i class="fas fa-trash-alt me-1"></i> Eliminar
                                         </a>
                                     </div>
                                 </td>
