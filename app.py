@@ -43,15 +43,11 @@ def registrar_objeto():
 
 @app.route("/buscar", methods=["GET", "POST"])
 def buscar_objeto():
-
     if request.method == "POST":
-
         nombre = request.form.get("nombre")
 
         conn = get_db_connection()
-
         with conn.cursor() as cur:
-
             cur.execute("""
                 SELECT
                     id,
@@ -71,7 +67,7 @@ def buscar_objeto():
 
         conn.close()
 
-        if len(resultados) == 0:
+        if not resultados:
             return render_template(
                 "sin_resultado.html",
                 termino=nombre
@@ -89,17 +85,12 @@ def buscar_objeto():
 # ==========================================
 @app.route("/dashboard")
 def dashboard():
-
     if not session.get("admin_autenticado"):
         return redirect(url_for("login_admin"))
-
     conn = get_db_connection()
-
     with conn.cursor() as cur:
-
         cur.execute("SELECT COUNT(*) AS total FROM objetos_perdidos")
         cantidad = cur.fetchone()["total"]
-
         cur.execute("""
             SELECT
                 id,
@@ -169,29 +160,24 @@ def editar_objeto(id):
     if objeto is None:
         return "Objeto no encontrado", 404
     return render_template("editar.html", objeto=objeto)
-
+#==========================================
+# ELIMINAR OBJETO
+#==========================================
 @app.route("/eliminar/<int:id>")
-def eliminar_objeto():
-
+def eliminar_objeto(id):
     if not session.get("admin_autenticado"):
         return redirect(url_for("login_admin"))
-
     conn = get_db_connection()
-
     with conn.cursor() as cur:
-
         cur.execute(
             "DELETE FROM objetos_perdidos WHERE id=%s",
             (id,)
         )
-
         conn.commit()
-
     conn.close()
-
     flash("Objeto eliminado correctamente.", "success")
-
     return redirect(url_for("dashboard"))
+
 # ==========================================
 # LOGIN Y FEEDBACK
 # ==========================================
