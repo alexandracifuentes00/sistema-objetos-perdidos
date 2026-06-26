@@ -56,14 +56,11 @@ Registrar Objeto - CFT Tarapacá
     .footer-bar { flex: 0 0 auto; background: #002060; height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
     .nav-home { color: white !important; text-decoration: none !important; font-weight: 700; font-size: 0.9rem; }
     
-    /* MODO PC/TÓTEM RESTAURADO */
-    .totem-container.modo-pc { max-width: 100vw !important; width: 100vw !important; }
-    .modo-btn { position: fixed; left: 10px; bottom: 70px; background: #334155; color: white; padding: 8px 15px; border-radius: 8px; font-size: 0.8rem; z-index: 9999; text-decoration: none; }
 </style>
 {% endblock %}
 
 {% block contenido %}
-<div class="totem-container {% if modo_pc %}modo-pc{% endif %}">
+<div class="totem-container">
     <header class="header-bar">
     <div class="header-top">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
@@ -79,19 +76,28 @@ Registrar Objeto - CFT Tarapacá
         <div class="form-card">
             <form action="{{ url_for('registrar_objeto') }}" method="POST">
                 <div class="row">
-                    <div class="col-md-6 mb-2"><label class="form-label">Nombre del Objeto</label><input type="text" name="nombre" class="form-control" required></div>
+                    <div class="col-md-6 mb-2"><label class="form-label">Nombre del Objeto</label>
+                        <input type="text" name="nombre" class="form-control" required></div>
                     <div class="col-md-6 mb-2"><label class="form-label">Categoría</label>
-                        <select name="categoria" class="form-select" required>
-                            <option value="">Seleccione...</option>
-                            <option value="Electrónica">Electrónica</option>
-                            <option value="Vestuario">Vestuario</option>
-                            <option value="Documentos">Documentos</option>
-                        </select>
+                    <select name="categoria" class="form-select" required>
+                        <option value="">Seleccione...</option>
+                        <option>Electrónica</option>
+                        <option>Vestuario</option>
+                        <option>Mochilas</option>
+                        <option>Llaves</option>
+                        <option>Documentos</option>
+                        <option>Billeteras</option>
+                        <option>Accesorios</option>
+                        <option>Botellas</option>
+                        <option>Otros</option>
+                    </select>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-2"><label class="form-label">Lugar</label><input type="text" name="lugar" class="form-control" required></div>
-                    <div class="col-md-6 mb-2"><label class="form-label">Fecha</label><input type="date" name="fecha" id="fecha_hallazgo" class="form-control" required></div>
+                    <div class="col-md-6 mb-2"><label class="form-label">Lugar</label>
+                        <input type="text" name="lugar" class="form-control" required></div>
+                    <div class="col-md-6 mb-2"><label class="form-label">Fecha</label>
+                        <input type="date" name="fecha" id="fecha_hallazgo" class="form-control" required></div>
                 </div>
                 <div class="mb-2"><label class="form-label">Ubicación (Custodia)</label>
                     <select name="ubicacion" class="form-select" required>
@@ -102,9 +108,18 @@ Registrar Objeto - CFT Tarapacá
 
                     </select>
                 </div>
-                <div class="mb-3"><label class="form-label">Descripción</label><textarea name="descripcion" class="form-control" rows="2"></textarea></div>
+                <div class="mb-3"><label class="form-label">Descripción</label>
+                    <textarea
+                        name="descripcion"
+                        class="form-control"
+                        rows="2"
+                        required></textarea>
+                </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success btn-guardar">REGISTRAR OBJETO</button>
+                    <button type="submit" class="btn btn-success btn-guardar">
+                    <i class="fas fa-floppy-disk me-2"></i>
+                    REGISTRAR OBJETO
+                    </button>
                     <a href="{{ url_for('principal') }}" class="btn btn-outline-secondary btn-sm">VOLVER AL MENÚ</a>
                 </div>
             </form>
@@ -116,12 +131,6 @@ Registrar Objeto - CFT Tarapacá
         <i class="fas fa-info-circle text-white"></i>
     </footer>
 </div>
-
-{% if modo_pc %}
-    <a href="{{ url_for('activar_totem') }}" class="modo-btn">Cambiar a Modo Tótem</a>
-{% else %}
-    <a href="{{ url_for('activar_pc') }}" class="modo-btn">Cambiar a Modo PC</a>
-{% endif %}
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

@@ -17,7 +17,7 @@ body {
     overflow: hidden;
 }
 
-   .nav-home {
+.nav-home {
     color: white !important;
     text-decoration: none !important; /* Esto borra cualquier subrayado */
     border-bottom: none !important;    /* Esto asegura que no haya línea inferior */
@@ -66,20 +66,25 @@ body {
     /* FOOTER FIJO */
     .footer-bar { flex: 0 0 auto; background: #002060; height: 55px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
     
-    /* AJUSTES MODO PC */
-    .totem-container.modo-pc { max-width: 100vw !important; width: 100vw !important; }
-    .totem-container.modo-pc .header-bar { padding: 20px 40px; height: 100px; }
-    .totem-container.modo-pc .header-bar img { height: 70px; }
-    .totem-container.modo-pc .header-text h1 { font-size: 2rem; }
-    .totem-container.modo-pc .titulo-busqueda { font-size: 2.5rem; }
-    .totem-container.modo-pc .form-card { max-width: 550px; padding: 40px; }
-    .modo-btn { position: fixed; left: 15px; bottom: 70px; background: #334155; color: white; padding: 10px; border-radius: 8px; z-index: 9999; }
-    
+    .btn-buscar{
+    background:#002060;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    font-size:1.1rem;
+    transition:.25s;
+}
+
+.btn-buscar:hover{
+    background:#0039a6;
+    color:white;
+    transform:translateY(-2px);
+}
 </style>
 </head>
-<body style="background: {% if modo_pc %}#002060{% else %}#e2e8f0{% endif %};">
+<body>
 
-<div class="totem-container {% if modo_pc %}modo-pc{% endif %}">
+<div class="totem-container">
 
     <header class="header-bar">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
@@ -99,15 +104,18 @@ body {
         <div class="form-card">
             <form action="{{ url_for('buscar_objeto') }}" method="POST">
                 <div class="mb-4">
-                    <label class="form-label">Nombre del objeto que busca</label>
-                    <input 
-                        type="text" 
-                        name="nombre" 
-                        class="form-control" 
-                        placeholder="Ej: mochila, llaves, pendrive..." 
-                        required 
+                <label class="form-label">
+                    Nombre del objeto que busca
+                </label>
+                    <input
+                        type="text"
+                        name="nombre"
+                        class="form-control"
+                        placeholder="Ej: mochila, llaves, pendrive..."
+                        maxlength="80"
+                        required
                         autocomplete="off">
-                </div>
+                        </div>
 
                 <div class="d-grid gap-3">
                     <button type="submit" class="btn btn-buscar fw-bold shadow-sm">
@@ -129,15 +137,6 @@ body {
 
 </div>
 
-{% if modo_pc %}
-    <a href="{{ url_for('activar_totem') }}" class="modo-btn">
-        <i class="fas fa-mobile-alt me-1"></i> Modo Tótem
-    </a>
-{% else %}
-    <a href="{{ url_for('activar_pc') }}" class="modo-btn">
-        <i class="fas fa-desktop me-1"></i> Modo PC
-    </a>
-{% endif %}
 
 </body>
 </html>

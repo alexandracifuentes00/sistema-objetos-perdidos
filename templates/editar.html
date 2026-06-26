@@ -95,7 +95,7 @@
 
         <div class="body-edit">
 
-            <form action="/editar/{{ objeto.id }}" method="POST">
+            <form action="{{ url_for('editar_objeto', id=objeto.id) }}" method="POST">
 
                 <div class="row">
 
@@ -109,7 +109,7 @@
                             type="text"
                             name="nombre"
                             class="form-control"
-                            value="{{ objeto.nombre }}"
+                            value="{{ objeto.nombre_objeto }}"
                             required>
 
                     </div>
@@ -129,6 +129,15 @@
 
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea
+                        name="descripcion"
+                        class="form-control"
+                        rows="3"
+                        required>{{ objeto.descripcion }}</textarea>
+                    </div>
+
                 </div>
 
                 <div class="row">
@@ -143,7 +152,7 @@
                             type="date"
                             name="fecha"
                             class="form-control"
-                            value="{{ objeto.fecha }}"
+                            value="{{ objeto.fecha_encontrado }}"
                             required>
 
                     </div>
@@ -190,7 +199,7 @@
                         type="text"
                         name="lugar"
                         class="form-control"
-                        value="{{ objeto.lugar }}"
+                        value="{{ objeto.lugar_encontrado }}"
                         required>
 
                 </div>
@@ -205,14 +214,14 @@
                         type="text"
                         name="ubicacion"
                         class="form-control"
-                        value="{{ objeto.ubicacion }}"
+                        value="{{ objeto.ubicacion_actual }}"
                         required>
 
                 </div>
 
                 <div class="d-flex justify-content-between">
 
-                    <a href="/dashboard"
+                    <a href="{{ url_for('dashboard') }}"
                         class="btn btn-secondary">
 
                         <i class="fas fa-arrow-left"></i>
@@ -221,11 +230,11 @@
                     </a>
 
                     <button
-                        type="submit"
-                        class="btn btn-success">
+                    type="submit"
+                    class="btn btn-success px-4">
 
-                        <i class="fas fa-save"></i>
-                        Guardar Cambios
+                    <i class="fas fa-floppy-disk me-2"></i>
+                    Guardar Cambios
 
                     </button>
 

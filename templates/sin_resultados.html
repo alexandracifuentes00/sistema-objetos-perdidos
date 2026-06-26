@@ -3,55 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sin Resultados - CFT Tarapacá</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Objeto no encontrado</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
     <style>
-        body { background: #e2e8f0; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; min-height: 100vh; margin: 0; }
-        .totem-container { width: 100%; max-width: 500px; min-height: 100vh; background: white; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 0 25px rgba(0,0,0,.15); }
-        .header-bar { background: #002060; color: white; padding: 20px; display: flex; align-items: center; gap: 15px; }
-        .header-bar img { height: 60px; background: white; padding: 5px; border-radius: 8px; }
-        .main-content { flex: 1; padding: 40px 25px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
-        .icon-alert { font-size: 4rem; color: #dc3545; margin-bottom: 20px; }
-        .btn-volver { background: #002060; color: white; font-weight: 600; padding: 12px; border-radius: 10px; text-decoration: none; }
-        .btn-volver:hover { background: #001540; color: white; }
-        .footer-bar { background: #002060; height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+
+        body{
+            background:#f4f6f9;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        .contenedor{
+            max-width:700px;
+            margin:60px auto;
+        }
+
+        .card{
+            border:none;
+            border-radius:20px;
+            box-shadow:0 8px 20px rgba(0,0,0,.08);
+        }
+
+        .card-header{
+            background:#dc3545;
+            color:white;
+            text-align:center;
+            padding:25px;
+        }
+
+        .card-body{
+            padding:40px;
+            text-align:center;
+        }
+
+        .icono{
+            font-size:80px;
+            color:#dc3545;
+            margin-bottom:20px;
+        }
+
+        .termino{
+            color:#002060;
+            font-weight:bold;
+        }
+
     </style>
+
 </head>
+
 <body>
 
-<div class="totem-container">
-    <header class="header-bar">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-        <div class="header-text text-start">
-            <h1 style="font-size: 1.1rem; margin:0;">MÓDULO INTELIGENTE</h1>
-            <p style="margin:0; color: #93c5fd; font-size: .75rem;">SISTEMA DE GESTIÓN DE OBJETOS PERDIDOS</p>
-        </div>
-    </header>
+<div class="contenedor">
 
-    <main class="main-content">
-        <div class="icon-alert">
-            <i class="fas fa-search-minus"></i>
-        </div>
-        <h3 class="fw-bold text-dark mb-2">No se encontraron objetos</h3>
-        <p class="text-secondary mb-4">
-            No tenemos registros activos para: <strong class="text-danger">"{{ termino }}"</strong>. Intenta buscando con otra palabra clave.
-        </p>
-        
-        <div class="d-grid gap-2">
-            <a href="/buscar" class="btn btn-volver">
-                <i class="fas fa-undo me-2"></i>Intentar Otra Búsqueda
-            </a>
-            <a href="/principal" class="btn btn-outline-secondary">
-                Volver al Menú Principal
-            </a>
-        </div>
-    </main>
+    <div class="card">
 
-    <footer class="footer-bar">
-        <a href="/principal" style="color: white; text-decoration: none; font-weight: 700;">INICIO</a>
-        <div style="width: 28px; height: 28px; border-radius: 50%; background: white; color: #002060; display: flex; align-items: center; justify-content: center; font-weight: bold;">i</div>
-    </footer>
+        <div class="card-header">
+            <h2>
+                <i class="fas fa-circle-xmark"></i>
+                Objeto no encontrado
+            </h2>
+        </div>
+
+        <div class="card-body">
+
+            <div class="icono">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <h4>No encontramos resultados.</h4>
+
+            <p>
+                No existe ningún objeto registrado con el nombre:
+            </p>
+
+            <h3 class="termino">
+                "{{ termino }}"
+            </h3>
+
+            <hr>
+
+            <p class="text-muted">
+                Intenta buscar con otro nombre o consulta en Administración.
+            </p>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+
+                <a href="{{ url_for('buscar_objeto') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Buscar nuevamente
+                </a>
+
+                <a href="{{ url_for('principal') }}" class="btn btn-primary">
+                    <i class="fas fa-house me-2"></i>
+                    Menú principal
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 </body>

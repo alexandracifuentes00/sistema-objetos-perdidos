@@ -43,84 +43,155 @@ def registrar_objeto():
 
 @app.route("/buscar", methods=["GET", "POST"])
 def buscar_objeto():
+
     if request.method == "POST":
-        query = request.form.get("query")
+
+        nombre = request.form.get("nombre")
+
         conn = get_db_connection()
+
         with conn.cursor() as cur:
-            cur.execute("SELECT id, nombre_objeto, categoria, descripcion, lugar_encontrado, estado FROM objetos_perdidos WHERE nombre_objeto ILIKE %s", (f"%{query}%",))
+
+            cur.execute("""
+                SELECT
+                    id,
+                    nombre_objeto,
+                    categoria,
+                    descripcion,
+                    fecha_encontrado,
+                    lugar_encontrado,
+                    ubicacion_actual,
+                    estado
+                FROM objetos_perdidos
+                WHERE nombre_objeto ILIKE %s
+                ORDER BY nombre_objeto
+            """, (f"%{nombre}%",))
+
             resultados = cur.fetchall()
+
         conn.close()
-        return render_template("resultados.html", resultados=resultados)
-    return render_template("resultado.html", resultados=resultados)
+
+        if len(resultados) == 0:
+            return render_template(
+                "sin_resultado.html",
+                termino=nombre
+            )
+
+        return render_template(
+            "resultados.html",
+            resultados=resultados
+        )
+
+    return render_template("buscar.html")
 
 # ==========================================
 # DASHBOARD ADMINISTRATIVO
 # ==========================================
 @app.route("/dashboard")
 def dashboard():
-    if not session.get("admin_autenticado"): 
+
+    if not session.get("admin_autenticado"):
         return redirect(url_for("login_admin"))
-    
+
     conn = get_db_connection()
+
     with conn.cursor() as cur:
-        # Obtenemos la cantidad de otra forma para evitar errores
-        cur.execute("SELECT count(*) FROM objetos_perdidos")
-        # Usamos fetchone() que devuelve una tupla
-        row = cur.fetchone()
-        cantidad = row[0] if row else 0
-        
-        # Obtenemos los objetos
-        cur.execute("SELECT id, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos ORDER BY id DESC")
-        filas = cur.fetchall()
-        
-        # Procesamos los datos
-        objetos = []
-        for f in filas:
-            objetos.append({
-                "id": f[0], 
-                "nombre": f[1], 
-                "categoria": f[2], 
-                "fecha": str(f[3]), 
-                "lugar": f[4], 
-                "ubicacion": f[5], 
-                "estado": f[6]
-            })
+
+        cur.execute("SELECT COUNT(*) AS total FROM objetos_perdidos")
+        cantidad = cur.fetchone()["total"]
+
+        cur.execute("""
+            SELECT
+                id,
+                nombre_objeto,
+                categoria,
+                descripcion,
+                fecha_encontrado,
+                lugar_encontrado,
+                ubicacion_actual,
+                estado
+            FROM objetos_perdidos
+            ORDER BY id DESC
+        """)
+
+        objetos = cur.fetchall()
+
     conn.close()
-    return render_template("dashboard.html", objetos=objetos, cantidad=cantidad)
+
+    return render_template(
+        "dashboard.html",
+        objetos=objetos,
+        cantidad=cantidad
+    )
 # ==========================================
 # EDITAR Y ELIMINAR (CRUD)
 # ==========================================
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar_objeto(id):
-    if not session.get("admin_autenticado"): return redirect(url_for("login_admin"))
+    if not session.get("admin_autenticado"):
+        return redirect(url_for("login_admin"))
     conn = get_db_connection()
     if request.method == "POST":
         with conn.cursor() as cur:
-            cur.execute("""UPDATE objetos_perdidos SET nombre_objeto=%s, categoria=%s, fecha_encontrado=%s, 
-                            lugar_encontrado=%s, ubicacion_actual=%s, estado=%s WHERE id=%s""", 
-                        (request.form["nombre"], request.form["categoria"], request.form["fecha"], 
-                            request.form["lugar"], request.form["ubicacion"], request.form["estado"], id))
+            cur.execute("""
+                UPDATE objetos_perdidos
+                SET
+                    nombre_objeto=%s,
+                    categoria=%s,
+                    descripcion=%s,
+                    fecha_encontrado=%s,
+                    lugar_encontrado=%s,
+                    ubicacion_actual=%s,
+                    estado=%s
+                WHERE id=%s
+            """, (
+                request.form["nombre"],
+                request.form["categoria"],
+                request.form["descripcion"],
+                request.form["fecha"],
+                request.form["lugar"],
+                request.form["ubicacion"],
+                request.form["estado"],
+                id
+            ))
             conn.commit()
         conn.close()
+        flash("Objeto actualizado correctamente.", "success")
         return redirect(url_for("dashboard"))
-    
     with conn.cursor() as cur:
-        cur.execute("SELECT id, nombre_objeto, categoria, fecha_encontrado, lugar_encontrado, ubicacion_actual, estado FROM objetos_perdidos WHERE id=%s", (id,))
-        fila = cur.fetchone()
+        cur.execute("""
+            SELECT *
+            FROM objetos_perdidos
+            WHERE id=%s
+        """, (id,))
+        objeto = cur.fetchone()
     conn.close()
-    if not fila: return "Objeto no encontrado", 404
-    objeto = {"id": fila[0], "nombre": fila[1], "categoria": fila[2], "fecha": str(fila[3]), "lugar": fila[4], "ubicacion": fila[5], "estado": fila[6]}
+    if objeto is None:
+        return "Objeto no encontrado", 404
     return render_template("editar.html", objeto=objeto)
 
 @app.route("/eliminar/<int:id>")
-def eliminar_objeto(id):
-    conn = get_db_connection()
-    with conn.cursor() as cur:
-        cur.execute("DELETE FROM objetos_perdidos WHERE id = %s", (id,))
-        conn.commit()
-    conn.close()
-    return redirect(url_for("dashboard"))
+def eliminar_objeto():
 
+    if not session.get("admin_autenticado"):
+        return redirect(url_for("login_admin"))
+
+    conn = get_db_connection()
+
+    with conn.cursor() as cur:
+
+        cur.execute(
+            "DELETE FROM objetos_perdidos WHERE id=%s",
+            (id,)
+        )
+
+        conn.commit()
+
+    conn.close()
+
+    flash("Objeto eliminado correctamente.", "success")
+
+    return redirect(url_for("dashboard"))
 # ==========================================
 # LOGIN Y FEEDBACK
 # ==========================================
@@ -135,6 +206,12 @@ def login_admin():
             return redirect(url_for("dashboard"))
     return render_template("login_admin.html")
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("Sesión cerrada correctamente.")
+    return redirect(url_for("principal"))
+
 @app.route("/enviar_feedback", methods=["POST"])
 def enviar_feedback():
     conn = get_db_connection()
@@ -145,15 +222,6 @@ def enviar_feedback():
     conn.close()
     return redirect(url_for("principal"))
 
-@app.route("/activar_pc")
-def activar_pc():
-    session["modo_pc"] = True
-    return redirect(request.referrer or url_for("principal"))
-
-@app.route("/activar_totem")
-def activar_totem():
-    session["modo_pc"] = False
-    return redirect(request.referrer or url_for("principal"))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
