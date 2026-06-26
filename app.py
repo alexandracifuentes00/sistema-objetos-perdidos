@@ -217,7 +217,8 @@ def enviar_feedback():
     conn.close()
     return redirect(url_for("principal"))
 
-    @app.route("/sugerencias")
+    # Asegúrate de que no haya espacios en blanco antes de "@app.route" ni de "def"
+@app.route("/sugerencias")
 def sugerencias():
     return render_template("sugerencias.html")
 
