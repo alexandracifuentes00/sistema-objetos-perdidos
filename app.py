@@ -184,11 +184,11 @@ def eliminar_objeto(id):
 def login_admin():
     if request.method == "POST":
         password = request.form.get("password")
-        print(f"Intento de login con: {password}") # Mira esto en los Logs de Render
         if password == "admin123":
             session["admin_autenticado"] = True
-            print("Login exitoso, redirigiendo al dashboard...")
-            return redirect(url_for("dashboard"))
+    return redirect(url_for("dashboard"))
+
+    flash("Contraseña incorrecta", "danger")
     return render_template("login_admin.html")
 
 @app.route("/logout")

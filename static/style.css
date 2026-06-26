@@ -38,22 +38,14 @@ body {
 /* ==========================================================================
     ENCABEZADO INSTITUCIONAL DE ALTA RESOLUCIÓN
    ========================================================================== */
-.header-bar {
-    background-color: #002060;
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    height: 120px;
+.header-bar{
+    height:120px;
 }
 
 .header-bar img,
 .totem-logo,
-.header-logo {
-    height: 80px;
-    width: auto;
-    object-fit: contain;
+.header-logo{
+    height:250px;
 }
 
 .header-text h1 { font-size: 1.1rem; margin: 0; }
