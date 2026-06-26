@@ -57,11 +57,19 @@
         }
 
         .container-fluid {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 20px 40px;
-}
+            width: 100% !important;
+            max-width: 100% !important;
+        }
 
+        .sidebar-card, .content-card {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .table-responsive {
+            width: 100% !important;
+            overflow-x: auto;
+        }
     </style>
 </head>
 
@@ -83,25 +91,24 @@
     </div>
 </header>
 
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4 px-4">
     <div class="row">
 
-        <div class="col-md-3 mb-3">
+        <div class="col-lg-3 col-md-4 mb-4">
             <div class="sidebar-card">
                 <h5 class="fw-bold mb-3">Menú</h5>
                 <div class="d-grid gap-2">
-                    <a href="/dashboard?accion=actualizar" class="btn btn-primary">
+                    <a href="/dashboard?accion=actualizar" class="btn btn-primary" style="background-color: #002060; border: none;">
                         <i class="fas fa-history me-2"></i> Historial
                     </a>
                     <a href="#" class="btn btn-warning disabled">
-                        <i class="fas fa-comment me-2"></i>
-                            Feedback
+                        <i class="fas fa-comment me-2"></i> Feedback
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-lg-9 col-md-8 mb-4">
             <div class="content-card">
 
                 {% if vista_actual == "feedback" %}
@@ -109,36 +116,38 @@
                     <i class="fas fa-comments text-warning"></i> Retroalimentación de Alumnos
                 </h3>
 
-                <table class="table table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Categoría</th>
-                            <th>Comentario</th>
-                            <th>Puntuación</th>
-                            <th>Fecha</th>
-                            <th>Ubicación</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for c in comentarios %}
-                        <tr>
-                            <td>#{{ c.id }}</td>
-                            <td>{{ c.categoria }}</td>
-                            <td>{{ c.comentario }}</td>
-                            <td>
-                                {% for i in range(c.puntuacion) %} ⭐ {% endfor %}
-                            </td>
-                            <td>{{ c.fecha }}</td>
-                            <td>{{ c.ubicacion }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Categoría</th>
+                                <th>Comentario</th>
+                                <th>Puntuación</th>
+                                <th>Fecha</th>
+                                <th>Ubicación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for c in comentarios %}
+                            <tr>
+                                <td>#{{ c.id }}</td>
+                                <td>{{ c.categoria }}</td>
+                                <td>{{ c.comentario }}</td>
+                                <td>
+                                    {% for i in range(c.puntuacion) %} ⭐ {% endfor %}
+                                </td>
+                                <td>{{ c.fecha }}</td>
+                                <td>{{ c.ubicacion }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
                 {% else %}
                 <div class="row mb-4">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="stat-card">
                             <h6>Total Objetos</h6>
                             <h2>{{ objetos|length }}</h2>
@@ -152,7 +161,7 @@
 
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
-                        <thead class="table-primary">
+                        <thead class="table-primary" style="--bs-table-bg: #002060; --bs-table-color: white;">
                             <tr>
                                 <th>ID</th>
                                 <th>Objeto</th>
@@ -167,11 +176,8 @@
                         {% for obj in objetos %}
                             <tr>
                                 <td>#{{ obj.id }}</td>
-                                <td class="fw-semibold">{{ obj.nombre }}</td>
-                                <td>{{ obj.categoria }}</td>
-                                <td>{{ obj.fecha }}</td>
-                                <td>{{ obj.lugar }}</td>
-                                <td>
+                                <td class="fw-semibold">{{ obj.nombre_objeto }}</td> <td>{{ obj.categoria }}</td>
+                                <td>{{ obj.fecha_encontrado }}</td> <td>{{ obj.lugar_encontrado }}</td> <td>
                                     {% if obj.estado == "Pendiente" %}
                                     <span class="badge badge-pendiente">Pendiente</span>
                                     {% else %}
