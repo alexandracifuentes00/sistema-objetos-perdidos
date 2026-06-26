@@ -8,67 +8,108 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <style>
+ <style>
+        /* =======================================================
+           CONFIGURACIÓN BASE DEL PANEL ADMINISTRATIVO
+           ======================================================= */
         body {
-            background: #f4f6f9;
-            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9 !important;
+            font-family: 'Segoe UI', sans-serif !important;
         }
 
         .navbar-admin {
-            background: #002060;
-            color: white;
-            padding: 15px 25px;
+            background: #002060 !important;
+            color: white !important;
+            padding: 15px 25px !important;
         }
 
         .sidebar-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,.08);
+            background: white !important;
+            border-radius: 15px !important;
+            padding: 20px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
         }
 
         .content-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,.08);
+            background: white !important;
+            border-radius: 15px !important;
+            padding: 25px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
         }
 
         .stat-card {
-            border-left: 5px solid #002060;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,.05);
+            border-left: 5px solid #002060 !important;
+            background: white !important;
+            padding: 20px !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,.05) !important;
         }
 
         .table th {
-            vertical-align: middle;
+            vertical-align: middle !important;
         }
 
         .badge-pendiente {
-            background: #ffc107;
-            color: black;
+            background: #ffc107 !important;
+            color: black !important;
         }
 
         .badge-entregado {
-            background: #198754;
-            color: white;
+            background: #198754 !important;
+            color: white !important;
         }
 
+        /* =======================================================
+           FUERZA BRUTA: EXPANSIÓN A TODA LA PANTALLA (PC MODO)
+           ======================================================= */
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 100% !important;
+            overflow-x: hidden !important;
+            display: block !important; /* Rompe el centrado vertical del Tótem */
+        }
+
+        /* Obliga al contenedor de Bootstrap a estirarse al 100% real */
         .container-fluid {
             width: 100% !important;
             max-width: 100% !important;
+            min-width: 100% !important;
+            padding-left: 30px !important;
+            padding-right: 30px !important;
         }
 
+        /* Asegura que la fila use todo el espacio horizontal libre */
+        .row {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            width: 100% !important;
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+        }
+
+        /* Las tarjetas internas usarán todo lo que les dé su columna */
         .sidebar-card, .content-card {
             width: 100% !important;
             max-width: 100% !important;
         }
 
+        /* Control de desborde horizontal para la tabla */
         .table-responsive {
             width: 100% !important;
-            overflow-x: auto;
+            overflow-x: auto !important;
+        }
+
+        /* Re-mapeo estricto de columnas en monitores de computadora */
+        @media (min-width: 768px) {
+            .col-md-8 {
+                flex: 0 0 auto !important;
+                width: 25% !important; /* Transforma el bloque del menú a la izquierda (1/4 de pantalla) */
+            }
+            .col-md-9 {
+                flex: 0 0 auto !important;
+                width: 75% !important; /* Transforma el bloque de la tabla a la derecha (3/4 de pantalla) */
+            }
         }
     </style>
 </head>
