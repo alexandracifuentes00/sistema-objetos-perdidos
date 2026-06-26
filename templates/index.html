@@ -12,111 +12,92 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-    /* ESTILO PARA MODO PC */
-    body.fondo-pc { background: #002060 !important; }
-
-    /* CONTENEDOR BASE */
-    .totem-container {
-        width: 100%;
-        max-width: 500px;
-        height: 100vh;
+        height: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0;
+        padding: 0;
+        background: #002060 !important; /* Fondo azul completo en PC */
         display: flex;
-        flex-direction: column;
-        background: white;
-        box-shadow: 0 0 25px rgba(0,0,0,.15);
-        overflow: hidden;
-    }
-
-    /* HEADER CON COLOR ORIGINAL */
-    .header {
-        background: #002060; /* Color azul recuperado */
-        color: white;
-        padding: 20px;
-        text-align: center;
-        flex: 0 0 auto;
-        display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
     }
 
-    .logo {
-        height: 80px; 
+    /* CONTENEDOR EXPANDIDO PARA PC */
+    .totem-container {
+        width: 90% !important;
+        max-width: 1200px !important; /* Se vuelve gigante y centrado en PC */
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         background: white;
-        padding: 5px;
-        border-radius: 8px;
-        margin-bottom: 10px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.3);
+        overflow: hidden;
     }
 
-    .header h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; }
-    .header p { margin: 0; color: #cbd5e1; font-size: .9rem; }
-
-    /* CONTENIDO */
-    .main-content {
+    .header {
+        background: #002060;
+        color: white;
+        padding: 40px;
+        text-align: center;
+    }
+    .logo { max-width: 180px; margin-bottom: 20px; }
+    
+    .content {
         flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 20px;
-        text-align: center;
-        overflow-y: auto;
+        padding: 40px;
     }
-
-    .welcome-title { color: #002060; font-weight: 800; margin-bottom: 20px; }
-    .welcome-text { color: #64748b; margin-bottom: 35px; font-size: 1rem; }
 
     .btn-ingresar {
         width: 100%;
-        max-width: 320px;
+        max-width: 400px;
         background: #005694;
         border: none;
         color: white;
-        padding: 18px;
+        padding: 20px;
         border-radius: 12px;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         font-weight: 700;
         text-decoration: none;
+        text-align: center;
         transition: .3s;
     }
     .btn-ingresar:hover { background: #00467a; color: white; transform: translateY(-2px); }
 
-    /* FOOTER CON COLOR ORIGINAL */
     .footer { 
-        background: #002060; /* Color azul recuperado */
+        background: #002060;
         color: white; 
         text-align: center; 
         padding: 15px; 
-        font-size: .85rem; 
-        flex: 0 0 auto; 
+        font-size: .9rem; 
     }
-
-
 </style>
 </head>
 <body>
 
 <div class="totem-container">
-    <header class="header">
+    <header class="header text-center py-4">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo">
-        <h1>MÓDULO INTELIGENTE</h1>
-        <p>Sistema de Gestión de Objetos Perdidos</p>
+        <h1 class="fw-bold text-white">MÓDULO INTELIGENTE</h1>
     </header>
 
-    <main class="main-content">
-        <h2 class="welcome-title">BIENVENIDO</h2>
-        <p class="welcome-text">Consulta o registra objetos perdidos de manera rápida y segura.</p>
-        <a href="{{ url_for('principal') }}" class="btn-ingresar">
-            <i class="fas fa-arrow-right me-2"></i>INGRESAR
+    <div class="content">
+        <h2 class="fw-bold text-dark mb-3">¡Bienvenido!</h2>
+        <p class="welcome-text text-muted fs-5 mb-4 text-center">Sistema Inteligente de Gestión y Consulta de Objetos Perdidos</p>
+        <a href="{{ url_for('principal') }}" class="btn-ingresar shadow">
+            <i class="fas fa-right-to-bracket me-2"></i>INGRESAR AL MÓDULO
         </a>
-    </main>
+    </div>
 
-    <footer class="footer">CFT Tarapacá © 2026</footer>
+    <footer class="footer">
+        © 2026 Centro de Formación Técnica Tarapacá. Todos los derechos reservados.
+    </footer>
 </div>
 
 </body>

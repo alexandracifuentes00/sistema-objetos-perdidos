@@ -10,133 +10,91 @@
 
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    background: #002060; /* Deja el color fijo aquí */
-    font-family: 'Segoe UI', sans-serif;
-    height: 100vh;
-    overflow: hidden;
-}
+    body {
+        background: #002060 !important;
+        font-family: 'Segoe UI', sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.nav-home {
-    color: white !important;
-    text-decoration: none !important; /* Esto borra cualquier subrayado */
-    border-bottom: none !important;    /* Esto asegura que no haya línea inferior */
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding-bottom: 0;                /* Asegura que no haya espacio extra */
-}
-
-/* Opcional: Si quieres que siga cambiando de color al pasar el mouse */
-.nav-home:hover {
-    text-decoration: none !important;
-    opacity: 0.8;
-}
-    .info-icon { width: 28px; height: 28px; border-radius: 50%; background: white; color: #002060; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-
-
+    /* CONTENEDOR DE BÚSQUEDA ANCHO PC */
     .totem-container {
-        width: 100%; max-width: 500px; height: 100vh; background: white;
-        display: flex; flex-direction: column; box-shadow: 0 0 25px rgba(0,0,0,.15);
+        width: 90% !important;
+        max-width: 1000px !important; /* Expandido para PC horizontal */
+        background: white;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 10px 30px rgba(0,0,0,.25);
+        overflow: hidden;
+        height: 75vh;
+    }
+
+    .header-bar {
+        background: #002060;
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .form-card {
+        padding: 40px;
+        max-width: 600px;
         margin: 0 auto;
+        width: 100%;
     }
 
-    /* HEADER FIJO */
-    .header-bar { 
-        flex: 0 0 auto; /* No crece ni se encoge */
-        background: #002060; color: white; padding: 15px 20px; 
-        display: flex; align-items: center; gap: 15px; 
+    .btn-buscar {
+        background-color: #16a34a;
+        color: white;
+        padding: 15px;
+        font-size: 1.2rem;
     }
-    .header-bar img { height: 50px; background: white; padding: 4px; border-radius: 8px; }
-    .header-text h1 { font-size: 1.1rem; font-weight: 700; }
-    .header-text p { font-size: 0.7rem; color: #93c5fd; }
+    .btn-buscar:hover { background-color: #15803d; color: white; }
 
-    /* CONTENIDO CENTRAL (El corazón del problema) */
-    .main-content { 
-        flex: 1; /* Ocupa solo el espacio restante disponible */
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        padding: 20px;
-        overflow-y: auto; /* Si el contenido es muy grande, hace scroll interno aquí */
+    .footer-bar {
+        background-color: #e2e8f0;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
-    
-    .titulo-busqueda { color: #002060; font-weight: 800; margin-bottom: 20px; font-size: 1.5rem; text-align: center; }
-    .form-card { background: #f8fafc; border-radius: 15px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,.08); width: 100%; max-width: 450px; }
-    
-    /* FOOTER FIJO */
-    .footer-bar { flex: 0 0 auto; background: #002060; height: 55px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-    
-    .btn-buscar{
-    background:#002060;
-    color:white;
-    padding:14px;
-    border-radius:12px;
-    font-size:1.1rem;
-    transition:.25s;
-}
-
-.btn-buscar:hover{
-    background:#0039a6;
-    color:white;
-    transform:translateY(-2px);
-}
+    .nav-home { color: #002060 !important; font-weight: 700; text-decoration: none; }
 </style>
 </head>
 <body>
 
 <div class="totem-container">
-
     <header class="header-bar">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-        <div class="header-text">
-            <h1>MÓDULO INTELIGENTE</h1>
-            <p>SISTEMA DE GESTIÓN DE OBJETOS PERDIDOS</p>
-        </div>
+        <h2 class="m-0 fw-bold"><i class="fas fa-search me-2"></i>BUSCAR OBJETO</h2>
     </header>
 
-    <main class="main-content">
-        <div class="text-center mb-3">
-            <h2 class="titulo-busqueda">
-                <i class="fas fa-search me-2"></i>BUSCAR OBJETO
-            </h2>
-        </div>
+    <main class="form-card">
+        <form action=\"{{ url_for('buscar_objeto') }}\" method=\"POST\">
+            <div class=\"mb-4\">
+                <label class=\"form-label fw-bold text-secondary fs-5\">Nombre del objeto que busca</label>
+                <input type=\"text\" name=\"nombre\" class=\"form-control form-control-lg\" placeholder=\"Ej: mochila, llaves, pendrive...\" maxlength=\"80\" required autocomplete=\"off\">
+            </div>
 
-        <div class="form-card">
-            <form action="{{ url_for('buscar_objeto') }}" method="POST">
-                <div class="mb-4">
-                <label class="form-label">
-                    Nombre del objeto que busca
-                </label>
-                    <input
-                        type="text"
-                        name="nombre"
-                        class="form-control"
-                        placeholder="Ej: mochila, llaves, pendrive..."
-                        maxlength="80"
-                        required
-                        autocomplete="off">
-                        </div>
-
-                <div class="d-grid gap-3">
-                    <button type="submit" class="btn btn-buscar fw-bold shadow-sm">
-                        <i class="fas fa-search me-2"></i>BUSCAR
-                    </button>
-                    
-                    <a href="{{ url_for('principal') }}" class="btn btn-outline-secondary py-3 fw-semibold">
-                        <i class="fas fa-arrow-left me-2"></i>REGRESAR AL MENÚ
-                    </a>
-                </div>
-            </form>
-        </div>
+            <div class=\"d-grid gap-3\">
+                <button type=\"submit\" class=\"btn btn-buscar fw-bold rounded-3 shadow-sm\">
+                    <i class=\"fas fa-search me-2\"></i>BUSCAR NOW
+                </button>
+                <a href=\"{{ url_for('principal') }}\" class=\"btn btn-outline-secondary py-3 fw-semibold\">
+                    <i class=\"fas fa-arrow-left me-2\"></i>REGRESAR AL MENÚ
+                </a>
+            </div>
+        </form>
     </main>
 
-    <footer class="footer-bar">
-        <a href="{{ url_for('index') }}" class="nav-home"><i class="fas fa-home"></i> INICIO</a>
-        <div class="info-icon"><i class="fas fa-info-circle" style="color: #002060;"></i></div>
+    <footer class=\"footer-bar\">
+        <a href=\"{{ url_for('index') }}\" class=\"nav-home\"><i class=\"fas fa-home\"></i> INICIO</a>
+        <div><i class=\"fas fa-info-circle fs-5\" style=\"color: #002060;\"></i></div>
     </footer>
-
 </div>
-
 
 </body>
 </html>
