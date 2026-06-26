@@ -21,12 +21,9 @@
 }
 
 body {
-    background-color: #e2e8f0; /* Fondo gris claro */
+    background-color: #e2e8f0;
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
 }
 
@@ -34,13 +31,8 @@ body {
     CONTENEDOR DEL TÓTEM (Simulación de Quiosco Vertical / Adaptable a PC)
    ========================================================================== */
 .totem-container {
-    background-color: white;
-    width: 100%;
-    max-width: 500px;
-    height: 100vh;
-    box-shadow: 0 0 20px rgba(0,0,0,0.15);
-    display: flex;
-    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
 }
 
 /* ==========================================================================
@@ -56,11 +48,12 @@ body {
     height: 120px;
 }
 
-.header-bar img {
-    height: 60px;
-    background: white;
-    padding: 5px;
-    border-radius: 8px;
+.header-bar img,
+.totem-logo,
+.header-logo {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
 }
 
 .header-text h1 { font-size: 1.1rem; margin: 0; }
@@ -69,14 +62,6 @@ body {
 .header-left {
     display: flex;
     align-items: center;
-}
-
-/* Control maestro del tamaño del logo para que no se desborde */
-.totem-logo, .header-logo {
-    height: 250px;                  /* Tamaño grande y legible */
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.2));
 }
 
 .header-text, .header-right {
@@ -103,11 +88,8 @@ body {
     CUERPO CENTRAL DE CONTENIDO (100% CENTRADO)
    ========================================================================== */
 .totem-content, .totem-body {
-    flex-grow: 1;
-    padding: 30px 24px;
-    background-color: var(--gris-fondo);
     overflow-y: auto;
-    text-align: center;            /* Centra textos por defecto */
+    max-height: calc(100vh - 180px);
 }
 
 .welcome-title, .welcome-section {
@@ -156,16 +138,8 @@ body {
     BOTONES DE SELECCIÓN TÁCTIL CENTRADOS (SIN ICONOS)
    ========================================================================== */
 .totem-option-btn, .totem-btn, .menu-option {
-    display: block;
-    text-decoration: none;
-    padding: 20px 15px;
-    border-radius: 12px;
-    margin-bottom: 14px;
-    text-align: center;            /* Centra el título y subtítulo dentro del botón */
-    transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    border: none;
-    cursor: pointer;
+    min-height: 70px;
+    font-size: 1.1rem;
 }
 
 .totem-option-btn:last-child, .totem-btn:last-child {
@@ -352,19 +326,3 @@ body {
 }
 /* Clases utilitarias */
 .hidden { display: none; }
-
-.modo-pc{
-    max-width:1200px !important;
-    width:95% !important;
-    min-height:auto !important;
-    border-radius:20px;
-    margin:30px auto;
-}
-
-.modo-pc .main-content{
-    padding:60px;
-}
-
-.modo-pc .btn-menu{
-    font-size:1.3rem;
-}
