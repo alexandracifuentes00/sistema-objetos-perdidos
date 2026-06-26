@@ -184,11 +184,13 @@ def eliminar_objeto(id):
 def login_admin():
     if request.method == "POST":
         password = request.form.get("password")
+
         if password == "admin123":
             session["admin_autenticado"] = True
-    return redirect(url_for("dashboard"))
+            return redirect(url_for("dashboard"))
 
-    flash("Contraseña incorrecta", "danger")
+        flash("Contraseña incorrecta", "danger")
+
     return render_template("login_admin.html")
 
 @app.route("/logout")
