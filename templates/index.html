@@ -30,15 +30,17 @@
     .header-full {
         background: #002060;
         color: white;
-        padding: 40px 20px;
+        padding: 35px 20px;
         text-align: center;
         width: 100% !important;
     }
 
+    /* TAMAÑO DEL LOGO EN CANDIDATO A MÁS GRANDE */
     .logo-pc { 
-        max-width: 180px; 
+        width: 100%;
+        max-width: 280px; /* Aumentado para que resalte mucho más */
         height: auto;
-        margin-bottom: 20px; 
+        margin-bottom: 15px; 
     }
     
     .content-full {
@@ -71,7 +73,6 @@
         transform: translateY(-3px); 
     }
 
-    /* BARRA INFERIOR AZUL INSTITUCIONAL CORREGIDA */
     .footer-full { 
         background: #002060 !important;
         color: white !important; 
@@ -88,7 +89,7 @@
 <div class="full-page-viewport">
     <header class="header-full">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá" class="logo-pc">
-        <h1 class="fw-bold m-0 text-white">MÓDULO INTELIGENTE</h1>
+        <h1 class="fw-bold m-0 text-white fs-2">MÓDULO INTELIGENTE</h1>
     </header>
 
     <div class="content-full">
