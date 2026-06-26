@@ -9,7 +9,17 @@
     <style>
         body { background-color: #f4f6f9; font-family: 'Segoe UI', sans-serif; }
         .navbar-admin { background-color: #002e6d; color: white; padding: 15px; }
-        .card-feedback { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .card-feedback { 
+    background: white; 
+    border-radius: 12px; 
+    padding: 25px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    width: 100%; /* Cambiado para usar todo el ancho */
+}
+        .table th { vertical-align: middle; }
+        .badge { font-size: 0.85rem; }
+        .badge-pendiente { background-color: #ffc107; color: black; }
+        .badge-entregado { background-color: #198754; color: white; }
     </style>
 </head>
 <body>
@@ -19,7 +29,7 @@
         <a href="/dashboard" class="btn btn-sm btn-outline-light fw-bold">Volver al Inventario</a>
     </header>
 
-    <div class="container mb-5">
+    <div class="container-fluid px-5 py-4">
         <div class="card-feedback">
             <h5 class="fw-bold text-dark mb-4"><i class="fas fa-star text-warning me-2"></i> Opiniones y Sugerencias Recibidas</h5>
             
