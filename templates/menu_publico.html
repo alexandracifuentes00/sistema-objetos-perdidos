@@ -47,16 +47,11 @@
     
     .modo-btn { position: fixed; left: 15px; bottom: 80px; background: #334155; color: white; padding: 12px 18px; border-radius: 10px; font-weight: 600; text-decoration: none; z-index: 9999; }
 
-    /* MODO PC - EXPANSION TOTAL */
-    .totem-container.modo-pc { max-width: 100vw !important; width: 100vw !important; }
-    .totem-container.modo-pc .header-bar { padding: 30px 50px; }
-    .totem-container.modo-pc .header-text h1 { font-size: 2rem; }
-    .totem-container.modo-pc .main-content { padding: 40px 20%; }
 </style>
 {% endblock %}
 
 {% block contenido %}
-<div class="totem-container {% if modo_pc %}modo-pc{% endif %}">
+<div class="totem-container">
     <header class="header-bar">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
         <div class="header-text">
@@ -83,8 +78,4 @@
     </footer>
 </div>
 
-<a href="{{ url_for('activar_totem' if modo_pc else 'activar_pc') }}" class="modo-btn">
-    <i class="fas fa-{{ 'mobile-alt' if modo_pc else 'desktop' }} me-1"></i> 
-    {{ 'Modo Tótem' if modo_pc else 'Modo PC' }}
-</a>
 {% endblock %}
