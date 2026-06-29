@@ -6,12 +6,9 @@
     <title>Editar Objeto - CFT Tarapacá</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-
         body{
             background:#f4f6f9;
             font-family:'Segoe UI',sans-serif;
@@ -61,11 +58,17 @@
             border-radius:20px;
             font-size:.85rem;
         }
-
+        
+        /* Contenedor dinámico de acta de entrega */
+        .delivery-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
     </style>
-
 </head>
-
 <body>
 
 <div class="container-edit">
@@ -73,24 +76,19 @@
     <div class="card-edit">
 
         <div class="header-edit d-flex justify-content-between align-items-center">
-
             <div>
-
                 <h3>
                     <i class="fas fa-pen-to-square"></i>
                     Editar Objeto
                 </h3>
-
                 <small>
                     Actualizar información o entregar objeto
                 </small>
-
             </div>
 
             <span class="badge-id">
                 ID #{{ objeto.id }}
             </span>
-
         </div>
 
         <div class="body-edit">
@@ -98,146 +96,75 @@
             <form action="{{ url_for('editar_objeto', id=objeto.id) }}" method="POST">
 
                 <div class="row">
-
                     <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Nombre del Objeto
-                        </label>
-
-                        <input
-                            type="text"
-                            name="nombre"
-                            class="form-control"
-                            value="{{ objeto.nombre_objeto }}"
-                            required>
-
+                        <label class="form-label">Nombre del Objeto</label>
+                        <input type="text" name="nombre" class="form-control" value="{{ objeto.nombre_objeto }}" required>
                     </div>
 
                     <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Categoría
-                        </label>
-
-                        <input
-                            type="text"
-                            name="categoria"
-                            class="form-control"
-                            value="{{ objeto.categoria }}"
-                            required>
-
+                        <label class="form-label">Categoría</label>
+                        <input type="text" name="categoria" class="form-control" value="{{ objeto.categoria }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Descripción</label>
-                        <textarea
-                        name="descripcion"
-                        class="form-control"
-                        rows="3"
-                        required>{{ objeto.descripcion }}</textarea>
+                        <textarea name="descripcion" class="form-control" rows="3" required>{{ objeto.descripcion }}</textarea>
                     </div>
-
                 </div>
 
                 <div class="row">
-
                     <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Fecha Encontrado
-                        </label>
-
-                        <input
-                            type="date"
-                            name="fecha"
-                            class="form-control"
-                            value="{{ objeto.fecha_encontrado }}"
-                            required>
-
+                        <label class="form-label">Fecha Encontrado</label>
+                        <input type="date" name="fecha" class="form-control" value="{{ objeto.fecha_encontrado }}" required>
                     </div>
 
                     <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Estado
-                        </label>
-
-                        <select
-                            name="estado"
-                            class="form-select">
-
-                            <option value="Pendiente"
-                            {% if objeto.estado == 'Pendiente' %}
-                            selected
-                            {% endif %}
-                            >
+                        <label class="form-label">Estado</label>
+                        <select name="estado" id="selectorEstado" class="form-select" required>
+                            <option value="Pendiente" {% if objeto.estado == 'Pendiente' %}selected{% endif %}>
                                 🟡 Pendiente
                             </option>
-
-                            <option value="Entregado"
-                            {% if objeto.estado == 'Entregado' %}
-                            selected
-                            {% endif %}
-                            >
+                            <option value="Entregado" {% if objeto.estado == 'Entregado' %}selected{% endif %}>
                                 🟢 Entregado
                             </option>
-
                         </select>
-
                     </div>
+                </div>
 
+                <div id="seccionEntrega" class="delivery-box" style="display: none;">
+                    <h5 class="text-success fw-bold mb-3">
+                        <i class="fas fa-handshake me-1"></i> Acta de Entrega de Custodia
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label text-success">Funcionario que Entrega</label>
+                            <input type="text" name="quien_entrega" id="quien_entrega" class="form-control border-success-subtle" value="{{ objeto.quien_entrega or '' }}" placeholder="Nombre del administrativo">
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label text-success">Persona que Recibe (Dueño)</label>
+                            <input type="text" name="recibido_por" id="recibido_por" class="form-control border-success-subtle" value="{{ objeto.recibido_por or '' }}" placeholder="Nombre y RUN del alumno">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mb-3">
-
-                    <label class="form-label">
-                        Lugar Encontrado
-                    </label>
-
-                    <input
-                        type="text"
-                        name="lugar"
-                        class="form-control"
-                        value="{{ objeto.lugar_encontrado }}"
-                        required>
-
+                    <label class="form-label">Lugar Encontrado</label>
+                    <input type="text" name="lugar" class="form-control" value="{{ objeto.lugar_encontrado }}" required>
                 </div>
 
                 <div class="mb-4">
-
-                    <label class="form-label">
-                        Ubicación Actual
-                    </label>
-
-                    <input
-                        type="text"
-                        name="ubicacion"
-                        class="form-control"
-                        value="{{ objeto.ubicacion_actual }}"
-                        required>
-
+                    <label class="form-label">Ubicación Actual</label>
+                    <input type="text" name="ubicacion" class="form-control" value="{{ objeto.ubicacion_actual }}" required>
                 </div>
 
                 <div class="d-flex justify-content-between">
-
-                    <a href="{{ url_for('dashboard') }}"
-                        class="btn btn-secondary">
-
-                        <i class="fas fa-arrow-left"></i>
-                        Volver
-
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver
                     </a>
 
-                    <button
-                    type="submit"
-                    class="btn btn-success px-4">
-
-                    <i class="fas fa-floppy-disk me-2"></i>
-                    Guardar Cambios
-
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fas fa-floppy-disk me-2"></i> Guardar Cambios
                     </button>
-
                 </div>
 
             </form>
@@ -248,6 +175,32 @@
 
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const selector = document.getElementById('selectorEstado');
+        const seccion = document.getElementById('seccionEntrega');
+        const inputEntrega = document.getElementById('quien_entrega');
+        const inputRecibe = document.getElementById('recibido_por');
+
+        function alternarCamposEntrega() {
+            if (selector.value === 'Entregado') {
+                seccion.style.display = 'block';
+                inputEntrega.required = true;
+                inputRecibe.required = true;
+            } else {
+                seccion.style.display = 'none';
+                inputEntrega.required = false;
+                inputRecibe.required = false;
+            }
+        }
+
+        // Monitorea cambios en el selector de Estado
+        selector.addEventListener('change', alternarCamposEntrega);
+        
+        // Ejecuta al cargar por si el objeto ya estaba marcado como Entregado
+        alternarCamposEntrega();
+    });
+</script>
+
 </body>
 </html>
-
