@@ -37,11 +37,11 @@
         display: flex;
         padding: 30px;
         gap: 25px;
-        max-width: 1400px;
+        max-width: 1500px; /* Un poco más ancho para las nuevas columnas */
         margin: 0 auto;
     }
 
-    /* MENÚ LATERAL CORREGIDO (Fondo claro/blanco) */
+    /* MENÚ LATERAL */
     .sidebar-card {
         background: white;
         border-radius: 16px;
@@ -61,7 +61,6 @@
         border-bottom: 2px solid #f1f5f9;
     }
 
-    /* Botones en blanco con texto oscuro por defecto */
     .btn-side {
         width: 100%;
         padding: 12px 20px;
@@ -78,14 +77,13 @@
         color: #475569;
     }
 
-    /* Estilo para el botón activo o cuando pasas el mouse por encima */
     .btn-side:hover, .btn-side.active {
         background-color: #f8fafc;
         color: #002060;
         border-color: #cbd5e1;
     }
 
-    /* ÁREA DE CONTENIDO (Historial) */
+    /* ÁREA DE CONTENIDO */
     .content-card {
         flex: 1;
         background: white;
@@ -155,13 +153,15 @@
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th style="width: 80px;">ID</th>
+                        <th style="width: 70px;">ID</th>
                         <th>Objeto</th>
                         <th>Categoría</th>
-                        <th>Fecha Encontrado</th>
+                        <th>Fecha</th>
                         <th>Lugar Encontrado</th>
                         <th>Estado</th>
-                        <th class="text-center" style="width: 200px;">Acciones</th>
+                        <th>Entregado Por</th>
+                        <th>Recibido Por</th>
+                        <th class="text-center" style="width: 180px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -177,6 +177,10 @@
                                 {{ objeto.estado }}
                             </span>
                         </td>
+                        
+                        <td class="text-muted fs-7">{{ objeto.quien_entrega or '—' }}</td>
+                        <td class="text-muted fs-7">{{ objeto.recibido_by or objeto.recibido_por or '—' }}</td>
+
                         <td class="text-center">
                             <div class="btn-group gap-1">
                                 <a href="{{ url_for('editar_objeto', id=objeto.id) }}" class="btn btn-sm btn-success style-btn">
@@ -190,7 +194,7 @@
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">
+                        <td colspan="9" class="text-center py-4 text-muted">
                             <i class="fas fa-folder-open d-block fs-2 mb-2"></i>
                             No hay objetos registrados en el historial actualmente.
                         </td>
