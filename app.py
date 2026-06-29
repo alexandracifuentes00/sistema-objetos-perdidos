@@ -12,13 +12,12 @@ app.secret_key = "cft_tarapaca_2026"
 # ==========================================
 @app.route('/')
 def index():
-    # Volvemos a renderizar la bienvenida original. El error 404 anterior era por un 
-    # desajuste de archivos, pero ahora que tus plantillas están estables, cargará impecable.
     return render_template('index.html')
 
 @app.route("/principal")
 def principal():
     return render_template("menu_publico.html")
+
 # ==========================================
 # GESTIÓN DE OBJETOS (Registrar, Buscar)
 # ==========================================
@@ -36,9 +35,7 @@ def registrar_objeto():
             conn.commit()
         conn.close()
         
-        # Enviamos el mensaje de éxito antes de redirigir al menú público
-        flash('¡El objeto se ha guardado correctamente en el sistema!', 'success')
-        return redirect(url_for("principal"))
+        return redirect(url_for("principal", guardado="true"))
         
     return render_template("registrar.html")
 
@@ -67,15 +64,9 @@ def buscar_objeto():
         conn.close()
 
         if not resultados:
-            return render_template(
-                "sin_resultados.html",
-                termino=nombre
-            )
+            return render_template("sin_resultados.html", termino=nombre)
 
-        return render_template(
-            "resultado.html",
-            resultados=resultados
-        )
+        return render_template("resultado.html", resultados=resultados)
 
     return render_template("buscar.html")
 
@@ -91,6 +82,7 @@ def dashboard():
         cur.execute("SELECT COUNT(*) AS total FROM objetos_perdidos")
         cantidad = cur.fetchone()['total']
         
+        # Agregamos las nuevas columnas al SELECT para que se puedan listar
         cur.execute("""
             SELECT
                 id,
@@ -100,18 +92,16 @@ def dashboard():
                 fecha_encontrado,
                 lugar_encontrado,
                 ubicacion_actual,
-                estado
+                estado,
+                quien_entrega,
+                recibido_por
             FROM objetos_perdidos
             ORDER BY id DESC
         """)
         objetos = cur.fetchall()
     conn.close()
 
-    return render_template(
-        "dashboard.html",
-        objetos=objetos,
-        cantidad=cantidad
-    )
+    return render_template("dashboard.html", objetos=objetos, cantidad=cantidad)
 
 # ==========================================
 # EDITAR Y ELIMINAR (CRUD)
@@ -120,7 +110,10 @@ def dashboard():
 def editar_objeto(id):
     if not session.get("admin_autenticado"):
         return redirect(url_for("login_admin"))
+        
     conn = get_db_connection()
+    
+    # Procesar la actualización cuando se envía el formulario (POST)
     if request.method == "POST":
         with conn.cursor() as cur:
             cur.execute("""
@@ -132,7 +125,9 @@ def editar_objeto(id):
                     fecha_encontrado=%s,
                     lugar_encontrado=%s,
                     ubicacion_actual=%s,
-                    estado=%s
+                    estado=%s,
+                    quien_entrega=%s,
+                    recibido_por=%s
                 WHERE id=%s
             """, (
                 request.form["nombre"],
@@ -142,23 +137,32 @@ def editar_objeto(id):
                 request.form["lugar"],
                 request.form["ubicacion"],
                 request.form["estado"],
+                request.form.get("quien_entrega"),
+                request.form.get("recibido_por"),
                 id
             ))
             conn.commit()
         conn.close()
         flash("Objeto actualizado correctamente.", "success")
         return redirect(url_for("dashboard"))
-        
+
+    # CORRECCIÓN: Bloque GET para renderizar la vista y evitar la pantalla en blanco
     with conn.cursor() as cur:
         cur.execute("""
-            SELECT *
-            FROM objetos_perdidos
-            WHERE id=%s
+            SELECT 
+                id, nombre_objeto, categoria, descripcion, 
+                fecha_encontrado, lugar_encontrado, ubicacion_actual, 
+                estado, quien_entrega, recibido_por 
+            FROM objetos_perdidos 
+            WHERE id = %s
         """, (id,))
         objeto = cur.fetchone()
     conn.close()
-    if objeto is None:
-        return "Objeto no encontrado", 404
+
+    if not objeto:
+        flash("El objeto no existe.", "danger")
+        return redirect(url_for("dashboard"))
+
     return render_template("editar.html", objeto=objeto)
 
 @app.route("/eliminar/<int:id>")
@@ -167,10 +171,7 @@ def eliminar_objeto(id):
         return redirect(url_for("login_admin"))
     conn = get_db_connection()
     with conn.cursor() as cur:
-        cur.execute(
-            "DELETE FROM objetos_perdidos WHERE id=%s",
-            (id,)
-        )
+        cur.execute("DELETE FROM objetos_perdidos WHERE id=%s", (id,))
         conn.commit()
     conn.close()
     flash("Objeto eliminado correctamente.", "success")
