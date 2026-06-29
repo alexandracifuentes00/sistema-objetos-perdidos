@@ -12,14 +12,13 @@ app.secret_key = "cft_tarapaca_2026"
 # ==========================================
 @app.route('/')
 def index():
-    # OPTIMIZACIÓN: Redirigimos directamente al menú público para que el tótem 
-    # no arroje error 404 si alguien ingresa a la URL base.
-    return redirect(url_for("principal"))
+    # Volvemos a renderizar la bienvenida original. El error 404 anterior era por un 
+    # desajuste de archivos, pero ahora que tus plantillas están estables, cargará impecable.
+    return render_template('index.html')
 
 @app.route("/principal")
 def principal():
     return render_template("menu_publico.html")
-
 # ==========================================
 # GESTIÓN DE OBJETOS (Registrar, Buscar)
 # ==========================================
