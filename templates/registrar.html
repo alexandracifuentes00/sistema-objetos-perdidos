@@ -47,7 +47,7 @@ Registrar Objeto - CFT Tarapacá
     .form-card { background: #f8fafc; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .form-label { font-weight: 600; color: #334155; font-size: 0.85rem; margin-bottom: 3px; }
     .form-control, .form-select { border-radius: 8px; padding: 8px; font-size: 0.9rem; border: 1px solid #ced4da; }
-    .btn-guardar { background: #16a34a; border: none; font-weight: 700; padding: 10px; font-size: 0.9rem; color: white; width: 100%; }
+    .btn-guardar { background: #16a34a; border: none; font-weight: 700; padding: 12px; font-size: 1rem; color: white; width: 100%; border-radius: 8px; }
     
     .footer-bar { flex: 0 0 auto; background: #002060; height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
     .nav-home { color: white !important; text-decoration: none !important; font-weight: 700; font-size: 0.9rem; }
@@ -130,13 +130,30 @@ Registrar Objeto - CFT Tarapacá
     </footer>
 </div>
 
+<div id="pantallaProcesando" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 32, 96, 0.95); z-index: 999999; justify-content: center; align-items: center; font-family: sans-serif;">
+    <div style="background: white; color: #333; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); max-width: 400px; width: 85%; text-align: center;">
+        <i class="fas fa-sync-alt fa-spin" style="font-size: 4.5rem; color: #16a34a; margin-bottom: 20px; display: block;"></i>
+        <h2 style="font-weight: bold; margin-bottom: 10px; color: #002060; font-size: 1.6rem;">Procesando Registro</h2>
+        <p style="color: #555; margin-bottom: 0; font-size: 0.95rem; line-height: 1.4;">Guardando el objeto en la base de datos de manera segura...</p>
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Carga la fecha actual en el formulario de forma automática
+        // Autocompletado de fecha
         const t = new Date();
         const campoFecha = document.getElementById('fecha_hallazgo');
         if (campoFecha) {
             campoFecha.value = t.toISOString().split('T')[0];
+        }
+
+        // Interceptamos el envío para mostrar la animación antes de que cambie la pantalla
+        const form = document.getElementById('formRegistro');
+        if (form) {
+            form.addEventListener('submit', function() {
+                // Solo se activa si todos los campos requeridos pasan la validación del navegador
+                document.getElementById('pantallaProcesando').style.setProperty('display', 'flex', 'important');
+            });
         }
     });
 </script>
