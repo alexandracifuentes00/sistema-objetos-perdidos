@@ -59,9 +59,23 @@
         z-index: 1;
     }
     
-    .header-text h1 { font-size: 1.2rem; margin: 0; font-weight: 700; text-transform: uppercase; }
-    .header-text p { margin: 0; color: #93c5fd; font-size: .75rem; text-transform: uppercase; margin-top: 2px; }
-    
+    /* Busca estas dos líneas en la sección de estilos de tu menú y cambia el tamaño */
+.header-text h1 { 
+    font-size: 1.7rem; /* Subimos de 1.2rem a 1.7rem para que destaque */
+    margin: 0; 
+    font-weight: 800; /* Un poco más grueso */
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+}
+
+.header-text p { 
+    margin: 0; 
+    color: #93c5fd; 
+    font-size: 0.85rem; /* Subimos de 0.75rem a 0.85rem */
+    text-transform: uppercase; 
+    margin-top: 4px; 
+    letter-spacing: 1px; /* Espaciado elegante entre letras */
+}
     .main-content { flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
 
     .btn-menu {
