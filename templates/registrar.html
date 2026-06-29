@@ -69,7 +69,7 @@ Registrar Objeto - CFT Tarapacá
 
     <main class="main-content">
         <div class="form-card">
-            <form action="{{ url_for('registrar_objeto') }}" method="POST">
+            <form action="{{ url_for('registrar_objeto') }}" method="POST" id="formRegistro">
                 <div class="row">
                     <div class="col-md-6 mb-2">
                         <label class="form-label">Nombre del Objeto</label>
@@ -115,7 +115,7 @@ Registrar Objeto - CFT Tarapacá
                     <textarea name="descripcion" class="form-control" rows="2" required></textarea>
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success btn-guardar">
+                    <button type="submit" class="btn btn-success btn-guardar" id="btnSubmit">
                         <i class="fas fa-floppy-disk me-2"></i>REGISTRAR OBJETO
                     </button>
                     <a href="{{ url_for('principal') }}" class="btn btn-outline-secondary btn-sm">VOLVER AL MENÚ</a>
@@ -130,10 +130,33 @@ Registrar Objeto - CFT Tarapacá
     </footer>
 </div>
 
+<div class="modal fade" id="modalEspera" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered mx-auto px-3" style="max-width: 400px;">
+        <div class="modal-content border-0 shadow-lg text-center" style="border-radius: 20px; background: #ffffff;">
+            <div class="modal-body p-5">
+                <i class="fas fa-check-circle text-success mb-3" style="font-size: 5rem;"></i>
+                <h2 class="fw-bold text-dark mb-2" style="font-size: 1.6rem;">¡Registro Exitoso!</h2>
+                <p class="text-muted mb-0 fs-6">Guardando el objeto en el sistema de manera segura...</p>
+                <div class="spinner-border text-success mt-3" role="status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Carga la fecha actual en el formulario de forma automática
         const t = new Date();
         document.getElementById('fecha_hallazgo').value = t.toISOString().split('T')[0];
+
+        // Escucha el envío del formulario para lanzar la ventana de éxito de Bootstrap
+        const form = document.getElementById('formRegistro');
+        if (form) {
+            form.addEventListener('submit', function() {
+                var miModal = new bootstrap.Modal(document.getElementById('modalEspera'));
+                miModal.show();
+            });
+        }
     });
 </script>
 {% endblock %}
