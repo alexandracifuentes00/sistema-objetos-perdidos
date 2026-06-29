@@ -13,15 +13,13 @@ Registrar Objeto - CFT Tarapacá
 
     .totem-container { width: 100%; max-width: 600px; height: 100vh; background: white; display: flex; flex-direction: column; box-shadow: 0 0 25px rgba(0,0,0,.15); }
     
-    /* HEADER ORIGINAL (Tamaño restaurado) */
-    /* HEADER FLEXIBLE Y ADAPTABLE */
     .header-bar { 
         flex: 0 0 auto; 
         background: #002060; 
         color: white; 
         padding: 15px; 
         display: flex; 
-        flex-direction: column; /* Apila logo y título en tótem */
+        flex-direction: column; 
         align-items: center; 
         gap: 10px;
     }
@@ -37,7 +35,6 @@ Registrar Objeto - CFT Tarapacá
     .header-text h1 { font-size: 1rem; font-weight: 700; margin: 0; }
     .header-text p { font-size: 0.7rem; color: #93c5fd; margin: 0; }
 
-    /* TÍTULO QUE SE ACOMODA SEGÚN EL ESPACIO */
     .header-title { 
         font-size: 1.1rem; 
         font-weight: 800; 
@@ -45,80 +42,81 @@ Registrar Objeto - CFT Tarapacá
         margin-top: 5px;
         text-align: center;
     }
-    /* MAIN CONTENT COMPACTO */
+    
     .main-content { flex: 1; padding: 15px; overflow-y: auto; background: #ffffff; }
     .form-card { background: #f8fafc; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .form-label { font-weight: 600; color: #334155; font-size: 0.85rem; margin-bottom: 3px; }
     .form-control, .form-select { border-radius: 8px; padding: 8px; font-size: 0.9rem; border: 1px solid #ced4da; }
     .btn-guardar { background: #16a34a; border: none; font-weight: 700; padding: 10px; font-size: 0.9rem; color: white; width: 100%; }
     
-    /* FOOTER FIJO */
     .footer-bar { flex: 0 0 auto; background: #002060; height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
     .nav-home { color: white !important; text-decoration: none !important; font-weight: 700; font-size: 0.9rem; }
-    
 </style>
 {% endblock %}
 
 {% block contenido %}
 <div class="totem-container">
     <header class="header-bar">
-    <div class="header-top">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-        <div class="header-text">
-            <h1>MÓDULO INTELIGENTE</h1>
-            <p>REGISTRO DE OBJETOS ENCONTRADOS</p>
+        <div class="header-top">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+            <div class="header-text">
+                <h1>MÓDULO INTELIGENTE</h1>
+                <p>REGISTRO DE OBJETOS ENCONTRADOS</p>
+            </div>
         </div>
-    </div>
-    <div class="header-title">REGISTRAR OBJETO</div>
-</header>
+        <div class="header-title">REGISTRAR OBJETO</div>
+    </header>
 
     <main class="main-content">
         <div class="form-card">
             <form action="{{ url_for('registrar_objeto') }}" method="POST">
                 <div class="row">
-                    <div class="col-md-6 mb-2"><label class="form-label">Nombre del Objeto</label>
-                        <input type="text" name="nombre" class="form-control" required></div>
-                    <div class="col-md-6 mb-2"><label class="form-label">Categoría</label>
-                    <select name="categoria" class="form-select" required>
-                        <option value="">Seleccione...</option>
-                        <option>Electrónica</option>
-                        <option>Vestuario</option>
-                        <option>Mochilas</option>
-                        <option>Llaves</option>
-                        <option>Documentos</option>
-                        <option>Billeteras</option>
-                        <option>Accesorios</option>
-                        <option>Botellas</option>
-                        <option>Otros</option>
-                    </select>
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">Nombre del Objeto</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">Categoría</label>
+                        <select name="categoria" class="form-select" required>
+                            <option value="">Seleccione...</option>
+                            <option>Electrónica</option>
+                            <option>Vestuario</option>
+                            <option>Mochilas</option>
+                            <option>Llaves</option>
+                            <option>Documentos</option>
+                            <option>Billeteras</option>
+                            <option>Accesorios</option>
+                            <option>Botellas</option>
+                            <option>Otros</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-2"><label class="form-label">Lugar</label>
-                        <input type="text" name="lugar" class="form-control" required></div>
-                    <div class="col-md-6 mb-2"><label class="form-label">Fecha</label>
-                        <input type="date" name="fecha" id="fecha_hallazgo" class="form-control" required></div>
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">Lugar</label>
+                        <input type="text" name="lugar" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" name="fecha" id="fecha_hallazgo" class="form-control" required>
+                    </div>
                 </div>
-                <div class="mb-2"><label class="form-label">Ubicación (Custodia)</label>
+                <div class="mb-2">
+                    <label class="form-label">Ubicación (Custodia)</label>
                     <select name="ubicacion" class="form-select" required>
                         <option value="">Seleccione lugar...</option>
                         <option value="Garita puerta principal">Garita puerta principal</option>
                         <option value="Administración">Administración</option>
                         <option value="Oficina de Asuntos Estudiantiles">Oficina de Asuntos Estudiantiles</option>
-
                     </select>
                 </div>
-                <div class="mb-3"><label class="form-label">Descripción</label>
-                    <textarea
-                        name="descripcion"
-                        class="form-control"
-                        rows="2"
-                        required></textarea>
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="2" required></textarea>
                 </div>
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-success btn-guardar">
-                    <i class="fas fa-floppy-disk me-2"></i>
-                    REGISTRAR OBJETO
+                        <i class="fas fa-floppy-disk me-2"></i>REGISTRAR OBJETO
                     </button>
                     <a href="{{ url_for('principal') }}" class="btn btn-outline-secondary btn-sm">VOLVER AL MENÚ</a>
                 </div>

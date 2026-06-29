@@ -26,6 +26,11 @@ def principal():
 # ==========================================
 # GESTIÓN DE OBJETOS (Registrar, Buscar)
 # ==========================================
+app = Flask(__name__)
+# IMPORTANTE: Flask necesita una clave secreta para usar flash(). 
+# Si ya tienes una, no es necesario duplicarla.
+app.secret_key = 'cft_tarapaca_secret_key_para_totem'
+
 @app.route("/registrar", methods=["GET", "POST"])
 def registrar_objeto():
     if request.method == "POST":
@@ -36,10 +41,14 @@ def registrar_objeto():
                 (nombre_objeto, categoria, descripcion, lugar_encontrado, fecha_encontrado, ubicacion_actual, estado)
                 VALUES (%s, %s, %s, %s, %s, %s, 'Pendiente')
             """, (request.form.get("nombre"), request.form.get("categoria"), request.form.get("descripcion"), 
-                    request.form.get("lugar"), request.form.get("fecha"), request.form.get("ubicacion")))
+                  request.form.get("lugar"), request.form.get("fecha"), request.form.get("ubicacion")))
             conn.commit()
         conn.close()
+        
+        # Enviamos el mensaje de éxito antes de redirigir al menú principal
+        flash('¡El objeto se ha guardado correctamente en el sistema!', 'success')
         return redirect(url_for("principal"))
+        
     return render_template("registrar.html")
 
 @app.route("/buscar", methods=["GET", "POST"])
