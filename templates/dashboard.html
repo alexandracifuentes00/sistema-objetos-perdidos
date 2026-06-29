@@ -1,245 +1,204 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Administrativo - Objetos Perdidos</title>
+{% extends "base.html" %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+{% block titulo %}Panel Administrativo - Objetos Perdidos{% endblock %}
 
-    <style>
-        /* FORCE COMPLETE PANTALLA ANCHA (PC) */
-        html, body {
-            width: 100% !important;
-            max-width: 100% !important;
-            min-width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            background: #f4f6f9 !important;
-            font-family: 'Segoe UI', sans-serif !important;
-            display: block !important;
-        }
+{% block estilos %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<style>
+    body {
+        background-color: #f1f5f9;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-        .container-fluid {
-            width: 100% !important;
-            max-width: 100% !important;
-            min-width: 100% !important;
-            padding-left: 30px !important;
-            padding-right: 30px !important;
-        }
+    /* BARRA SUPERIOR */
+    .admin-header {
+        background-color: #002060;
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-        .row {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            width: 100% !important;
-            margin: 0 !important;
-        }
+    .admin-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 0;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-        .navbar-admin {
-            background: #002060 !important;
-            color: white !important;
-            padding: 15px 30px !important;
-            width: 100% !important;
-        }
+    /* CONTENEDOR PRINCIPAL */
+    .dashboard-wrapper {
+        display: flex;
+        padding: 30px;
+        gap: 25px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 
-        .sidebar-card {
-            background: white !important;
-            border-radius: 15px !important;
-            padding: 20px !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
-            width: 100% !important;
-        }
+    /* MENÚ LATERAL CORREGIDO (Fondo claro/blanco) */
+    .sidebar-card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        width: 260px;
+        flex-shrink: 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        height: fit-content;
+    }
 
-        .content-card {
-            background: white !important;
-            border-radius: 15px !important;
-            padding: 25px !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
-            width: 100% !important;
-        }
+    .sidebar-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #f1f5f9;
+    }
 
-        .stat-card {
-            border-left: 5px solid #002060 !important;
-            background: white !important;
-            padding: 20px !important;
-            border-radius: 12px !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,.05) !important;
-        }
+    /* Botones en blanco con texto oscuro por defecto */
+    .btn-side {
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: 1px solid #e2e8f0;
+        background-color: #ffffff;
+        color: #475569;
+    }
 
-        .table th {
-            vertical-align: middle !important;
-        }
+    /* Estilo para el botón activo o cuando pasas el mouse por encima */
+    .btn-side:hover, .btn-side.active {
+        background-color: #f8fafc;
+        color: #002060;
+        border-color: #cbd5e1;
+    }
 
-        .badge-pendiente {
-            background: #ffc107 !important;
-            color: black !important;
-        }
+    /* ÁREA DE CONTENIDO (Historial) */
+    .content-card {
+        flex: 1;
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
 
-        .badge-entregado {
-            background: #198754 !important;
-            color: white !important;
-        }
+    .counter-box {
+        background: #f8fafc;
+        border-left: 5px solid #002060;
+        padding: 15px 20px;
+        border-radius: 0 12px 12px 0;
+        margin-bottom: 25px;
+        max-width: 250px;
+    }
 
-        .table-responsive {
-            width: 100% !important;
-            overflow-x: auto !important;
-        }
+    .counter-title { font-size: 0.85rem; color: #64748b; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; }
+    .counter-value { font-size: 2.2rem; font-weight: 800; color: #002060; line-height: 1; }
+</style>
+{% endblock %}
 
-        /* DISEÑO DE COLUMNAS ESTRICTO PARA MONITOR ANCHO */
-        @media (min-width: 768px) {
-            .col-menu-custom {
-                width: 20% !important; /* El menú usará el 20% de la pantalla */
-                flex: 0 0 20% !important;
-                max-width: 20% !important;
-            }
-            .col-tabla-custom {
-                width: 80% !important; /* La tabla usará el 80% restante de la pantalla */
-                flex: 0 0 80% !important;
-                max-width: 80% !important;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header class="navbar-admin d-flex justify-content-between align-items-center mb-4">
-    <h4 class="m-0 fw-bold">
-        <i class="fas fa-user-shield me-2"></i>
-        PANEL ADMINISTRATIVO
-    </h4>
-
-    <div class="d-flex gap-2">
-        <a href="/principal" class="btn btn-outline-lightfw-bold">
-            <i class="fas fa-house me-1"></i> Volver al Tótem
-        </a>
-        <a href="{{ url_for('logout') }}" class="btn btn-outline-light fw-bold">
-            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-        </a>
+{% block contenido %}
+<header class="admin-header">
+    <div class="admin-title">
+        <i class="fas fa-users-cog"></i> PANEL ADMINISTRATIVO
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        <a href="{{ url_for('principal') }}" class="btn btn-sm btn-outline-light"><i class="fas fa-arrow-left me-1"></i> Volver al Tótem</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-sm btn-danger"><i class="fas fa-sign-out-alt me-1"></i> Cerrar sesión</a>
     </div>
 </header>
 
-<div class="container-fluid">
-    <div class="row">
+<div class="dashboard-wrapper">
+    <aside class="sidebar-card">
+        <div class="sidebar-title">Menú</div>
+        <a href="{{ url_for('dashboard') }}" class="btn-side active">
+            <i class="fas fa-history"></i> Historial
+        </a>
+        <a href="#" class="btn-side">
+            <i class="fas fa-comment-alt"></i> Feedback
+        </a>
+    </aside>
 
-        <div class="col-menu-custom pe-3 mb-4">
-            <div class="sidebar-card">
-                <h5 class="fw-bold mb-3">Menú</h5>
-                <div class="d-grid gap-2">
-                    <a href="/dashboard?accion=actualizar" class="btn btn-primary fw-bold" style="background-color: #002060; border: none;">
-                        <i class="fas fa-history me-2"></i> Historial
-                    </a>
-                    <a href="#" class="btn btn-warning disabled fw-bold">
-                        <i class="fas fa-comment me-2"></i> Feedback
-                    </a>
-                </div>
-            </div>
+    <main class="content-card">
+        <div class="counter-box">
+            <div class="counter-title">Total Objetos Registrados</div>
+            <div class="counter-value">{{ cantidad }}</div>
         </div>
 
-        <div class="col-tabla-custom ps-3 mb-4">
-            <div class="content-card">
+        <h3 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
+            <i class="fas fa-history text-secondary"></i> Historial de Objetos Perdidos
+        </h3>
 
-                {% if vista_actual == "feedback" %}
-                <h3 class="fw-bold mb-4">
-                    <i class="fas fa-comments text-warning"></i> Retroalimentación de Alumnos
-                </h3>
-
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Categoría</th>
-                                <th>Comentario</th>
-                                <th>Puntuación</th>
-                                <th>Fecha</th>
-                                <th>Ubicación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for c in comentarios %}
-                            <tr>
-                                <td>#{{ c.id }}</td>
-                                <td>{{ c.categoria }}</td>
-                                <td>{{ c.comentario }}</td>
-                                <td>
-                                    {% for i in range(c.puntuacion) %} ⭐ {% endfor %}
-                                </td>
-                                <td>{{ c.fecha }}</td>
-                                <td>{{ c.ubicacion }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-                {% else %}
-                <div class="row mb-4">
-                    <div class="col-md-4 p-0">
-                        <div class="stat-card">
-                            <h6 class="text-muted fw-bold">Total Objetos Registrados</h6>
-                            <h2 class="fw-bold m-0 text-primary">{{ objetos|length }}</h2>
-                        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="anonymous" aria-label="Close"></button>
                     </div>
-                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-                <h3 class="fw-bold mb-4">
-                    <i class="fas fa-history text-primary"></i> Historial de Objetos Perdidos
-                </h3>
-
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead style="background-color: #002060; color: white;">
-                            <tr>
-                                <th class="p-3">ID</th>
-                                <th class="p-3">Objeto</th>
-                                <th class="p-3">Categoría</th>
-                                <th class="p-3">Fecha Encontrado</th>
-                                <th class="p-3">Lugar Encontrado</th>
-                                <th class="p-3">Estado</th>
-                                <th class="p-3 text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for obj in objetos %}
-                            <tr>
-                                <td class="p-3">#{{ obj.id }}</td>
-                                <td class="p-3 fw-semibold text-dark">{{ obj.nombre_objeto }}</td>
-                                <td class="p-3">{{ obj.categoria }}</td>
-                                <td class="p-3">{{ obj.fecha_encontrado }}</td>
-                                <td class="p-3">{{ obj.lugar_encontrado }}</td>
-                                <td class="p-3">
-                                    {% if obj.estado == "Pendiente" %}
-                                    <span class="badge badge-pendiente px-3 py-2 fs-6">Pendiente</span>
-                                    {% else %}
-                                    <span class="badge badge-entregado px-3 py-2 fs-6">Entregado</span>
-                                    {% endif %}
-                                </td>
-                                <td class="p-3 text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="/editar/{{ obj.id }}" class="btn btn-sm btn-success px-3">
-                                            <i class="fas fa-edit me-1"></i> Editar
-                                        </a>
-                                        <a href="/eliminar/{{ obj.id }}" 
-                                            class="btn btn-sm btn-danger px-3" 
-                                            onclick="return confirm('¿Está seguro de que desea eliminar permanentemente este objeto del historial?');">
-                                            <i class="fas fa-trash-alt me-1"></i> Eliminar
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% endif %}
-
-            </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 80px;">ID</th>
+                        <th>Objeto</th>
+                        <th>Categoría</th>
+                        <th>Fecha Encontrado</th>
+                        <th>Lugar Encontrado</th>
+                        <th>Estado</th>
+                        <th class="text-center" style="width: 200px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for objeto in objetos %}
+                    <tr>
+                        <td class="fw-bold text-secondary">#{{ objeto.id }}</td>
+                        <td class="fw-semibold text-dark">{{ objeto.nombre_objeto }}</td>
+                        <td><span class="badge bg-light text-dark border">{{ objeto.categoria }}</span></td>
+                        <td>{{ objeto.fecha_encontrado }}</td>
+                        <td>{{ objeto.lugar_encontrado }}</td>
+                        <td>
+                            <span class="badge {% if objeto.estado == 'Pendiente' %}bg-warning text-dark{% else %}bg-success{% endif %}">
+                                {{ objeto.estado }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group gap-1">
+                                <a href="{{ url_for('editar_objeto', id=objeto.id) }}" class="btn btn-sm btn-success style-btn">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <a href="{{ url_for('eliminar_objeto', id=objeto.id) }}" class="btn btn-sm btn-danger style-btn" onclick="return confirm('¿Seguro que deseas eliminar este registro?');">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            <i class="fas fa-folder-open d-block fs-2 mb-2"></i>
+                            No hay objetos registrados en el historial actualmente.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-
-    </div>
+    </main>
 </div>
-
-</body>
-</html>
+{% endblock %}
