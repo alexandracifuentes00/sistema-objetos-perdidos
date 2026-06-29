@@ -13,37 +13,49 @@ Registrar Objeto - CFT Tarapacá
 
     .totem-container { width: 100%; max-width: 600px; height: 100vh; background: white; display: flex; flex-direction: column; box-shadow: 0 0 25px rgba(0,0,0,.15); }
     
+    /* MODIFICACIÓN: Cabecera con posición relativa para permitir centrado absoluto */
     .header-bar { 
         flex: 0 0 auto; 
         background: #002060; 
         color: white; 
         padding: 15px; 
         display: flex; 
-        flex-direction: column; 
         align-items: center; 
-        gap: 10px;
+        position: relative;
+        min-height: 90px;
     }
 
     .header-top {
         display: flex;
         align-items: center;
-        gap: 15px;
         width: 100%;
     }
 
-    .header-bar img { height: 50px; background: white; padding: 4px; border-radius: 8px; }
-    .header-text h1 { font-size: 1rem; font-weight: 700; margin: 0; }
-    .header-text p { font-size: 0.7rem; color: #93c5fd; margin: 0; }
-
-    .header-title { 
-        font-size: 1.1rem; 
-        font-weight: 800; 
-        text-transform: uppercase; 
-        margin-top: 5px;
-        text-align: center;
+    .header-bar img { 
+        height: 50px; 
+        background: white; 
+        padding: 4px; 
+        border-radius: 8px;
+        position: relative;
+        z-index: 2; /* Mantiene el logo visible por encima */
     }
     
-    .main-content { flex: 1; padding: 15px; overflow-y: auto; background: #ffffff; }
+    /* MODIFICACIÓN: Título superior centrado perfectamente */
+    .header-text {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        width: 100%;
+        padding-left: 80px;
+        padding-right: 20px;
+        z-index: 1;
+    }
+    
+    .header-text h1 { font-size: 1rem; font-weight: 700; margin: 0; text-transform: uppercase; }
+    .header-text p { font-size: 0.7rem; color: #93c5fd; margin: 0; text-transform: uppercase; margin-top: 1px; }
+    
+    .main-content { flex: 1; padding: 20px 15px; overflow-y: auto; background: #ffffff; }
     .form-card { background: #f8fafc; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     .form-label { font-weight: 600; color: #334155; font-size: 0.85rem; margin-bottom: 3px; }
     .form-control, .form-select { border-radius: 8px; padding: 8px; font-size: 0.9rem; border: 1px solid #ced4da; }
@@ -60,14 +72,17 @@ Registrar Objeto - CFT Tarapacá
         <div class="header-top">
             <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
             <div class="header-text">
-                <h1>MÓDULO INTELIGENTE</h1>
-                <p>REGISTRO DE OBJETOS ENCONTRADOS</p>
+                <h1>Módulo Inteligente</h1>
+                <p>Registro de Objetos Encontrados</p>
             </div>
         </div>
-        <div class="header-title">REGISTRAR OBJETO</div>
     </header>
 
     <main class="main-content">
+        <h2 class="text-center fw-bold mb-4" style="color: #002060; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px;">
+            Registrar Objeto
+        </h2>
+
         <div class="form-card">
             <form action="{{ url_for('registrar_objeto') }}" method="POST" id="formRegistro">
                 <div class="row">
@@ -151,7 +166,6 @@ Registrar Objeto - CFT Tarapacá
         const form = document.getElementById('formRegistro');
         if (form) {
             form.addEventListener('submit', function() {
-                // Solo se activa si todos los campos requeridos pasan la validación del navegador
                 document.getElementById('pantallaProcesando').style.setProperty('display', 'flex', 'important');
             });
         }

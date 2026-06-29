@@ -27,10 +27,40 @@
         justify-content: space-between; box-shadow: 0 0 25px rgba(0,0,0,.15);
     }
 
-    .header-bar { background: #002060; color: white; padding: 20px; display: flex; align-items: center; gap: 15px; }
-    .header-bar img { height: 60px; background: white; padding: 5px; border-radius: 8px; }
-    .header-text h1 { font-size: 1.2rem; margin: 0; font-weight: 700; }
-    .header-text p { margin: 0; color: #93c5fd; font-size: .8rem; }
+    /* MODIFICACIÓN: Cabecera con posición relativa para permitir centrado absoluto */
+    .header-bar { 
+        background: #002060; 
+        color: white; 
+        padding: 20px; 
+        display: flex; 
+        align-items: center; 
+        position: relative;
+        min-height: 100px;
+    }
+    
+    .header-bar img { 
+        height: 60px; 
+        background: white; 
+        padding: 5px; 
+        border-radius: 8px;
+        position: relative;
+        z-index: 2; /* Mantiene el logo por encima en su capa */
+    }
+    
+    /* MODIFICACIÓN: Título perfectamente centrado en el medio de la cabecera */
+    .header-text { 
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        width: 100%;
+        padding-left: 80px; /* Previene superposición con el logo en pantallas pequeñas */
+        padding-right: 20px;
+        z-index: 1;
+    }
+    
+    .header-text h1 { font-size: 1.2rem; margin: 0; font-weight: 700; text-transform: uppercase; }
+    .header-text p { margin: 0; color: #93c5fd; font-size: .75rem; text-transform: uppercase; margin-top: 2px; }
     
     .main-content { flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
 
@@ -54,8 +84,8 @@
     <header class="header-bar">
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
         <div class="header-text">
-            <h1>MÓDULO INTELIGENTE</h1>
-            <p>SISTEMA DE GESTIÓN DE OBJETOS PERDIDOS</p>
+            <h1>Módulo Inteligente</h1>
+            <p>Sistema de Gestión de Objetos Perdidos</p>
         </div>
     </header>
 
@@ -88,18 +118,14 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Leemos los parámetros que vienen en la URL de navegación
         const urlParams = new URLSearchParams(window.location.search);
         
         if (urlParams.get('guardado') === 'true') {
-            // Levantamos el aviso flotante visual
             const alerta = document.getElementById('alertaExitoMenu');
             alerta.style.display = 'flex';
             
-            // Limpiamos la barra de direcciones para estética y evitar que reaparezca al actualizar
             window.history.replaceState({}, document.title, window.location.pathname);
             
-            // Cierre automático tras 4 segundos si el estudiante no presiona el botón
             setTimeout(function() {
                 alerta.style.display = 'none';
             }, 4000);
