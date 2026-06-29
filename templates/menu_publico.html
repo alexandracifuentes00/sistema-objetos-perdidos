@@ -77,42 +77,33 @@
     </footer>
 </div>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-        <div class="modal fade" id="modalExito" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered mx-auto px-3" style="max-width: 400px;">
-            <div class="modal-content border-0 shadow-lg text-center" style="border-radius: 20px; background: #ffffff;">
-            <div class="modal-body p-4">
-                <i class="fas fa-check-circle text-success mb-3" style="font-size: 4.5rem;"></i>
-                <h2 class="fw-bold text-dark mb-2" style="font-size: 1.6rem;">¡Registro Exitoso!</h2>
-                <p class="text-muted mb-4 fs-6">{{ message }}</p>
-                <div class="d-grid">
-                <button type="button" class="btn btn-success py-2.5 fw-bold rounded-3" data-bs-dismiss="modal" style="background-color: #16a34a !important; border: none; font-size: 1rem;">
-                    ENTENDIDO
-                </button>
-                </div>
-            </div>
-            </div>
-        </div>
-        </div>
+<div id="alertaExitoMenu" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 32, 96, 0.85); z-index: 99999; justify-content: center; align-items: center; color: white; text-align: center; font-family: 'Segoe UI', sans-serif;">
+    <div style="background: white; color: #333; padding: 35px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-width: 400px; width: 85%;">
+        <i class="fas fa-check-circle" style="font-size: 4.5rem; color: #16a34a; margin-bottom: 15px; display: block;"></i>
+        <h2 style="font-weight: 700; margin-bottom: 10px; color: #002060; font-size: 1.6rem;">¡Registro Exitoso!</h2>
+        <p style="color: #666; margin-bottom: 20px; font-size: 1rem;">El objeto se ha guardado correctamente en el sistema.</p>
+        <button onclick="document.getElementById('alertaExitoMenu').style.display='none'" style="background: #16a34a; color: white; border: none; padding: 12px 25px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; font-size: 1.1rem;">ENTENDIDO</button>
+    </div>
+</div>
 
-        <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var elementoModal = document.getElementById('modalExito');
-            if (elementoModal) {
-                var myModal = new bootstrap.Modal(elementoModal);
-                myModal.show();
-                
-                // Desaparece automáticamente en 4 segundos si no lo tocan antes
-                setTimeout(function() {
-                    myModal.hide();
-                }, 4000);
-            }
-        });
-        </script>
-    {% endfor %}
-    {% endif %}
-{% endwith %}
-
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Leemos los parámetros que vienen en la URL de navegación
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (urlParams.get('guardado') === 'true') {
+            // Levantamos el aviso flotante visual
+            const alerta = document.getElementById('alertaExitoMenu');
+            alerta.style.display = 'flex';
+            
+            // Limpiamos la barra de direcciones para estética y evitar que reaparezca al actualizar
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+            // Cierre automático tras 4 segundos si el estudiante no presiona el botón
+            setTimeout(function() {
+                alerta.style.display = 'none';
+            }, 4000);
+        }
+    });
+</script>
 {% endblock %}
