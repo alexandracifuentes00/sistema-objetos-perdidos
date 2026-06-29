@@ -12,12 +12,9 @@ app.secret_key = "cft_tarapaca_2026"
 # ==========================================
 @app.route('/')
 def index():
-    conn = get_db_connection()
-    with conn.cursor() as cur:
-        cur.execute('SELECT id, nombre_objeto, categoria, descripcion, lugar_encontrado, estado FROM objetos_perdidos')
-        objetos = cur.fetchall()
-    conn.close()
-    return render_template('index.html', objetos=objetos)
+    # OPTIMIZACIÓN: Redirigimos directamente al menú público para que el tótem 
+    # no arroje error 404 si alguien ingresa a la URL base.
+    return redirect(url_for("principal"))
 
 @app.route("/principal")
 def principal():
@@ -26,11 +23,6 @@ def principal():
 # ==========================================
 # GESTIÓN DE OBJETOS (Registrar, Buscar)
 # ==========================================
-app = Flask(__name__)
-# IMPORTANTE: Flask necesita una clave secreta para usar flash(). 
-# Si ya tienes una, no es necesario duplicarla.
-app.secret_key = 'cft_tarapaca_secret_key_para_totem'
-
 @app.route("/registrar", methods=["GET", "POST"])
 def registrar_objeto():
     if request.method == "POST":
@@ -45,7 +37,7 @@ def registrar_objeto():
             conn.commit()
         conn.close()
         
-        # Enviamos el mensaje de éxito antes de redirigir al menú principal
+        # Enviamos el mensaje de éxito antes de redirigir al menú público
         flash('¡El objeto se ha guardado correctamente en el sistema!', 'success')
         return redirect(url_for("principal"))
         
@@ -73,17 +65,14 @@ def buscar_objeto():
             """, (f"%{nombre}%",))
 
             resultados = cur.fetchall()
-
         conn.close()
 
         if not resultados:
-            # CORREGIDO: Se cambió 'sin_resultado.html' a 'sin_resultados.html'
             return render_template(
                 "sin_resultados.html",
                 termino=nombre
             )
 
-        # CORREGIDO: Se cambió 'resultados.html' a 'resultado.html'
         return render_template(
             "resultado.html",
             resultados=resultados
@@ -101,7 +90,6 @@ def dashboard():
     conn = get_db_connection()
     with conn.cursor() as cur:
         cur.execute("SELECT COUNT(*) AS total FROM objetos_perdidos")
-        # CORREGIDO: Al usar dict_row se debe acceder mediante la clave ['total']
         cantidad = cur.fetchone()['total']
         
         cur.execute("""
@@ -117,9 +105,7 @@ def dashboard():
             FROM objetos_perdidos
             ORDER BY id DESC
         """)
-
         objetos = cur.fetchall()
-
     conn.close()
 
     return render_template(
@@ -176,9 +162,6 @@ def editar_objeto(id):
         return "Objeto no encontrado", 404
     return render_template("editar.html", objeto=objeto)
 
-#==========================================
-# ELIMINAR OBJETO
-#==========================================
 @app.route("/eliminar/<int:id>")
 def eliminar_objeto(id):
     if not session.get("admin_autenticado"):
@@ -226,7 +209,6 @@ def enviar_feedback():
     conn.close()
     return redirect(url_for("principal"))
 
-    # Asegúrate de que no haya espacios en blanco antes de "@app.route" ni de "def"
 @app.route("/sugerencias")
 def sugerencias():
     return render_template("sugerencias.html")
