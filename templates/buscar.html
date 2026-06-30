@@ -27,7 +27,7 @@
         justify-content: space-between;
     }
 
-    /* MODIFICACIÓN: Cabecera con posición relativa y altura controlada para centrar el módulo */
+    /* CABECERA CONFIGURADA DE MANERA DIRECTA Y CENTRADA */
     .header-full {
         background: #002060;
         color: white;
@@ -35,17 +35,19 @@
         display: flex;
         align-items: center;
         position: relative;
-        min-height: 90px;
+        min-height: 95px;
         width: 100% !important;
     }
 
+    /* LOGO: Tamaño incrementado y sombra para realce institucional */
     .header-full img { 
-        height: 55px; 
+        height: 70px; 
         background: white; 
-        padding: 4px; 
-        border-radius: 8px;
+        padding: 6px; 
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         position: relative;
-        z-index: 2; /* Mantiene el logo en primer plano */
+        z-index: 2;
     }
 
     /* Contenedor del título perfectamente centrado en el medio */
@@ -55,18 +57,32 @@
         transform: translateX(-50%);
         text-align: center;
         width: 100%;
-        padding-left: 90px;
+        padding-left: 95px;
         padding-right: 20px;
         z-index: 1;
     }
 
-    .header-text-center h1 { font-size: 1.2rem; font-weight: 700; margin: 0; text-transform: uppercase; }
-    .header-text-center p { margin: 0; color: #93c5fd; font-size: .75rem; text-transform: uppercase; margin-top: 1px; }
+    .header-text-center h1 { 
+        font-size: 1.6rem; 
+        font-weight: 800; 
+        margin: 0; 
+        text-transform: uppercase; 
+        letter-spacing: 0.5px; 
+    }
+    
+    .header-text-center p { 
+        margin: 0; 
+        color: #93c5fd; 
+        font-size: .75rem; 
+        text-transform: uppercase; 
+        margin-top: 3px; 
+        letter-spacing: 1px;
+    }
 
     .form-container-full {
         flex: 1;
         display: flex;
-        flex-direction: column; /* Permite colocar el h2 arriba del form de manera limpia */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: 40px;
@@ -115,25 +131,18 @@
 <div class="full-page-viewport">
     
     <header class="header-full">
-        <img src="{{ url_for('static', filename='logo.png') }}" 
-            alt="Logo CFT Tarapacá" 
-            style="height: 70px; background: white; padding: 6px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); position: relative; z-index: 2;">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo CFT Tarapacá">
         <div class="header-text-center">
-            <h1>Módulo Inteligente</h1>
+            <h1>BUSCAR OBJETO</h1>
             <p>Sistema de Gestión de Objetos Perdidos</p>
         </div>
     </header>
 
     <main class="form-container-full">
-        
-        <h2 class="text-center fw-bold mb-4" style="color: #002060; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.5px;">
-            <i class="fas fa-search me-2"></i>Buscar Objeto
-        </h2>
-
         <div class="form-wrapper-inner">
             <form action="{{ url_for('buscar_objeto') }}" method="POST">
                 <div class="mb-4">
-                    <label class="form-label fw-bold text-secondary fs-5 mb-2">Nombre del objeto que busca</label>
+                    <label class="form-label fw-bold text-secondary fs-4 mb-3">Nombre del objeto que busca</label>
                     <input type="text" name="nombre" class="form-control form-control-lg py-3" placeholder="Ej: mochila, llaves, pendrive..." maxlength="80" required autocomplete="off">
                 </div>
 
